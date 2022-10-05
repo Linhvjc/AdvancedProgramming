@@ -1,0 +1,15 @@
+D:\GW\Advanced_Programming\code\Assignment\test\bin\Debug\net6.0\test.exe
+D:\GW\Advanced_Programming\code\Assignment\test\bin\Debug\net6.0\test.deps.json
+D:\GW\Advanced_Programming\code\Assignment\test\bin\Debug\net6.0\test.runtimeconfig.json
+D:\GW\Advanced_Programming\code\Assignment\test\bin\Debug\net6.0\test.dll
+D:\GW\Advanced_Programming\code\Assignment\test\bin\Debug\net6.0\test.pdb
+D:\GW\Advanced_Programming\code\Assignment\test\obj\Debug\net6.0\test.csproj.AssemblyReference.cache
+D:\GW\Advanced_Programming\code\Assignment\test\obj\Debug\net6.0\test.GeneratedMSBuildEditorConfig.editorconfig
+D:\GW\Advanced_Programming\code\Assignment\test\obj\Debug\net6.0\test.AssemblyInfoInputs.cache
+D:\GW\Advanced_Programming\code\Assignment\test\obj\Debug\net6.0\test.AssemblyInfo.cs
+D:\GW\Advanced_Programming\code\Assignment\test\obj\Debug\net6.0\test.csproj.CoreCompileInputs.cache
+D:\GW\Advanced_Programming\code\Assignment\test\obj\Debug\net6.0\test.dll
+D:\GW\Advanced_Programming\code\Assignment\test\obj\Debug\net6.0\refint\test.dll
+D:\GW\Advanced_Programming\code\Assignment\test\obj\Debug\net6.0\test.pdb
+D:\GW\Advanced_Programming\code\Assignment\test\obj\Debug\net6.0\test.genruntimeconfig.cache
+D:\GW\Advanced_Programming\code\Assignment\test\obj\Debug\net6.0\ref\test.dll
