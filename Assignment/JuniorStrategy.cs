@@ -6,9 +6,9 @@ using System.Threading.Tasks;
 
 namespace Assignment
 {
-    internal class JuniorStrategy : IGradeStrategy
+    internal class JuniorStrategy : IExperienceStrategy
     {
-        public string RatingGrade()
+        public string RattingExperience()
         {
             return "Junior";
         }

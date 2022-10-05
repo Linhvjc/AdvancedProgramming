@@ -38,8 +38,8 @@ namespace Assignment
 
         public override void DisplayInformation()
         {
-            Console.WriteLine($"ID: {base.Id}, Name: {base.Name}, Age: {base.Age}" +
-                $", Year experience: {this.yearExperience}, Ratting: {this.GettingExperience()}");
+            Console.WriteLine($"\t{base.Id} \t\t{base.Name} \t\t\t{base.Age} " +
+                $"\t\t{this.yearExperience} \t\t\t\t{this.GettingExperience()}");
         }
     }
 }

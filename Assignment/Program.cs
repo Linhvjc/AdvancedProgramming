@@ -7,7 +7,8 @@ namespace Assignment
         static void Main(string[] args)
         {
             StudentManagement students = new StudentManagement();
-            while(true)
+            LecturerManagerment lecturers = new LecturerManagerment();
+            while (true)
             {
                 Console.WriteLine();
                 Console.WriteLine("\t\t\t\t\t Student and Lecturer management software");
@@ -31,7 +32,7 @@ namespace Assignment
                 // break while loop
                 if (choiceLevel1 == "Exit" || choiceLevel1 == "exit") break;
                 if (choiceLevel1 == "1") StudentMenu(students);
-                if (choiceLevel1 == "2") LecturerMenu();
+                if (choiceLevel1 == "2") LecturerMenu(lecturers);
             }
             
 
@@ -55,33 +56,29 @@ namespace Assignment
                 }
                 else
                 {
-                    DisplayStudentTable(students);
+                    Console.WriteLine("\tID \t\tName \t\t\t\tAge \t\tGrade \t\tRating");
+                    Console.WriteLine("");
+                    // loop student in list and display
+                    foreach (Student student in students.ListOfStudent)
+                    {
+                        student.DisplayInformation();
+                    }
                 }
 
                 Console.WriteLine();
-                Console.WriteLine("1. Create \t2. Update \t3. Delete \t4. Search \t5.Filter");
+                Console.WriteLine("1. Create \t2. Update \t3. Delete \t4. Search \t5.Filter \t6.Sort");
                 Console.WriteLine("Type \"Exit\" to back");
                 Console.Write("Your choice: ");
 
                 // input choice
-                string choiceLevel2 = Console.ReadLine();
-                while (choiceLevel2 != "1" && choiceLevel2 != "2" &&
-                    choiceLevel2 != "3" && choiceLevel2 != "4" && choiceLevel2 != "5" &&
-                    choiceLevel2 != "6" && choiceLevel2 != "Exit" && choiceLevel2 != "exit")
-                {
-                    Console.Write("Please input from 1 to 5: ");
-                    choiceLevel2 = Console.ReadLine();
-                    if (choiceLevel2 == "Exit" || choiceLevel2 == "exit") break;
-                }
-
-                // break while loop
-                if (choiceLevel2 == "Exit" || choiceLevel2 == "exit") break;
-                if (choiceLevel2 == "1") students.CreateStudent();
-                else if (choiceLevel2 == "2") students.UpdateStudent();
-                else if (choiceLevel2 == "3") students.DeleteStudent();
-                else if (choiceLevel2 == "4") students.SearchStudent();
-                else if (choiceLevel2 == "5") students.FilterStudent();
-                else if (choiceLevel2 == "6") students.SortStudent();
+                string choice = GetChoice();
+                if (choice == "Exit" || choice == "exit") break;
+                if (choice == "1") students.CreateStudent();
+                else if (choice == "2") students.UpdateStudent();
+                else if (choice == "3") students.DeleteStudent();
+                else if (choice == "4") students.SearchStudent();
+                else if (choice == "5") students.FilterStudent();
+                else if (choice == "6") students.SortStudent();
                 Console.WriteLine("Enter to continue.");
                 Console.ReadLine();
                 Console.WriteLine();
@@ -89,22 +86,64 @@ namespace Assignment
 
         }
 
-        static void LecturerMenu()
+        static void LecturerMenu(LecturerManagerment lecturers)
         {
-            Console.WriteLine();
-            Console.WriteLine("Lecturer menu");
+            while(true)
+            {
+                Console.WriteLine("_______________________________________________________________________" +
+                    "_________________________________________________");
+                Console.WriteLine();
+                Console.WriteLine("\t\t\t\t\t Lecturer menu");
+
+                // check if the list is empty
+                if (lecturers.ListOfLecturer.Count == 0)
+                {
+                    Console.WriteLine("\t\t\t\t    No records to display");
+                }
+                else
+                {
+                    Console.WriteLine("\tID \t\tName \t\t\t\tAge \t\tYear Experience \t\tRating");
+                    Console.WriteLine("");
+                    // loop student in list and display
+                    foreach (Lecturer lecturer in lecturers.ListOfLecturer)
+                    {
+                        lecturer.DisplayInformation();
+                    }
+                }
+
+                Console.WriteLine();
+                Console.WriteLine("1. Create \t2. Update \t3. Delete \t4. Search \t5.Filter \t6.Sort");
+                Console.WriteLine("Type \"Exit\" to back");
+                Console.Write("Your choice: ");
+
+                // input choice
+                string choice = GetChoice();
+                if (choice == "Exit" || choice == "exit") break;
+                if (choice == "1") lecturers.CreateLecturer();
+                else if (choice == "2") lecturers.UpdateLecturer();
+                else if (choice == "3") lecturers.DeleteLecturer();
+                else if (choice == "4") lecturers.SearchLecturer();
+                else if (choice == "5") lecturers.FilterLecturer();
+                else if (choice == "6") lecturers.SortLecturer();
+                Console.WriteLine("Enter to continue.");
+                Console.ReadLine();
+                Console.WriteLine();
+            }
+            
+
         }
 
-        // Display list student
-        static void DisplayStudentTable(StudentManagement students)
+        static string GetChoice()
         {
-            Console.WriteLine("\tID \t\tName \t\t\t\tAge \t\tGrade \t\tRating");
-            Console.WriteLine("");
-            // loop student in list and display
-            foreach (Student student in students.ListOfStudent)
+            string choice = Console.ReadLine();
+            while (choice != "1" && choice != "2" &&
+                choice != "3" && choice != "4" && choice != "5" &&
+                choice != "6" && choice != "Exit" && choice != "exit")
             {
-                student.DisplayInformation();
+                Console.Write("Please input from 1 to 5: ");
+                choice = Console.ReadLine();
             }
+            return choice;
         }
 
 

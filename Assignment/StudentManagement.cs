@@ -105,6 +105,7 @@ namespace Assignment
             return new Student();
         }
 
+        // Get student by name
         private List<Student> GetStudentByName(string name)
         {
             List<Student> newList = new List<Student>();
@@ -127,7 +128,6 @@ namespace Assignment
                 Student student = GetStudentById(id);
                 // Input info
                 Console.WriteLine();
-                Console.WriteLine("Update student.");
                 Console.WriteLine("Format: <Name>, <Age>, <Grade>. Example: Phan Nhat Linh, 20, 8.5");
                 Console.Write("Student information: ");
                 var info = Console.ReadLine();
@@ -142,15 +142,15 @@ namespace Assignment
                     student.Age = int.Parse(infoArr[1]);
                     student.Grade = double.Parse(infoArr[2]);
                     SettingRating(student);
-                    Console.Write("Update successfully");
+                    Console.WriteLine("Update successfully");
                 }
                 else
                 {
-                    Console.Write("Wrong format!");
+                    Console.WriteLine("Wrong format!");
                 }
             } else
             {
-                Console.Write("Student ID does not exist");
+                Console.WriteLine("Student ID does not exist");
             }
         }
 
@@ -171,7 +171,20 @@ namespace Assignment
                 Console.WriteLine("Student ID does not exist");
             }
         }
-        
+
+        private string GetChoice()
+        {
+            string choice = Console.ReadLine();
+            while (choice != "1" && choice != "2" &&
+                choice != "3" && choice != "4" && choice != "5" &&
+                choice != "6" && choice != "Exit" && choice != "exit")
+            {
+                Console.Write("Please input 1 or 2: ");
+                choice = Console.ReadLine();
+            }
+            return choice;
+        }
+
         // Search student
         public void SearchStudent()
         {
@@ -180,13 +193,8 @@ namespace Assignment
             Console.WriteLine("1. Search by ID");
             Console.WriteLine("2. Search by Name");
             Console.Write("Your choice: ");
-            string choiceLevel3 = Console.ReadLine();
-            while (choiceLevel3 != "1" && choiceLevel3 != "2")
-            {
-                Console.Write("Please input 1 or 2: ");
-                choiceLevel3 = Console.ReadLine();
-            }
-            if (choiceLevel3 == "1")
+            string choice = GetChoice();
+            if (choice == "1")
             {
                 Console.Write("ID student you want to find: ");
                 string id = Console.ReadLine();
@@ -201,7 +209,7 @@ namespace Assignment
                 {
                     Console.WriteLine("Student ID does not exist");
                 }
-            } else if(choiceLevel3 == "2")
+            } else if(choice == "2")
             {
                 Console.Write("Student's name you want to find: ");
                 string name = Console.ReadLine();
@@ -223,6 +231,7 @@ namespace Assignment
 
         }
 
+        // Filter by grade
         public void FilterByGrade(double grade)
         {
             List<Student> newList = new List<Student>();
