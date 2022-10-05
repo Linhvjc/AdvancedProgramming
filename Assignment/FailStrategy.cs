@@ -8,7 +8,7 @@ namespace Assignment
 {
     internal class FailStrategy : IGradeStrategy
     {
-        public string RattingGrade()
+        public string RatingGrade()
         {
             return "Fail";
         }

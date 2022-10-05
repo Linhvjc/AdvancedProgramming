@@ -8,7 +8,7 @@ namespace Assignment
 {
     internal class SeniorStrategy : IGradeStrategy
     {
-        public string RattingGrade()
+        public string RatingGrade()
         {
             return "Senior";
         }

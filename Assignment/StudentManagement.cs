@@ -41,8 +41,8 @@ namespace Assignment
             return false;
         }
 
-        // Setting Ratting
-        private void SettingRatting(Student student)
+        // Setting Rating
+        private void SettingRating(Student student)
         {
             if (student.Grade < 5) student.GradeStrategy = new FailStrategy();
             else if (student.Grade >= 5 && student.Grade <= 7) student.GradeStrategy = new PassStrategy();
@@ -81,7 +81,7 @@ namespace Assignment
                     Student(infoArr[0], infoArr[1], int.Parse(infoArr[2]), double.Parse(infoArr[3]));
                 if(!checkIDExist(student.Id))
                 {
-                    SettingRatting(student);
+                    SettingRating(student);
                     this.listOfStudent.Add(student);
                     Console.WriteLine("Create student successfully");
                 } else
@@ -141,7 +141,7 @@ namespace Assignment
                     student.Name = infoArr[0];
                     student.Age = int.Parse(infoArr[1]);
                     student.Grade = double.Parse(infoArr[2]);
-                    SettingRatting(student);
+                    SettingRating(student);
                     Console.Write("Update successfully");
                 }
                 else
@@ -195,7 +195,7 @@ namespace Assignment
                     Student student = GetStudentById(id);
                     Console.Write("Result:");
                     Console.WriteLine($"ID: {student.Id}, Name: {student.Name}, Age: {student.Age}" +
-                        $", Grade: {student.Grade}, Ratting: {student.GettingGrade()}");
+                        $", Grade: {student.Grade}, Rating: {student.GettingGrade()}");
                 }
                 else
                 {
@@ -211,7 +211,7 @@ namespace Assignment
                     foreach (Student student in GetStudentByName(name))
                     {
                         Console.WriteLine($"ID: {student.Id}, Name: {student.Name}, Age: {student.Age}" +
-                            $", Grade: {student.Grade}, Ratting: {student.GettingGrade()}");
+                            $", Grade: {student.Grade}, Rating: {student.GettingGrade()}");
                     }
                 }
                 else
@@ -221,8 +221,76 @@ namespace Assignment
 
             }
 
-            
+        }
 
+        public void FilterByGrade(double grade)
+        {
+            List<Student> newList = new List<Student>();
+            foreach(Student student in this.listOfStudent)
+            {
+                if (student.Grade == grade) newList.Add(student);
+            }
+            if (newList.Count > 0)
+            {
+                foreach (Student student in newList)
+                {
+                    Console.WriteLine($"ID: {student.Id}, Name: {student.Name}, Age: {student.Age}" +
+                            $", Grade: {student.Grade}, Rating: {student.GettingGrade()}");
+                }
+            } else
+            {
+                Console.WriteLine("No records to display");
+            }
+        }
+
+        // Filter By Rating
+        public void FilterByRating(string rate)
+        {
+            List<Student> newList = new List<Student>();
+            foreach (Student student in this.listOfStudent)
+            {
+                if (student.GettingGrade() == rate) newList.Add(student);
+            }
+            if (newList.Count > 0)
+            {
+                foreach (Student student in newList)
+                {
+                    Console.WriteLine($"ID: {student.Id}, Name: {student.Name}, Age: {student.Age}" +
+                            $", Grade: {student.Grade}, Rating: {student.GettingGrade()}");
+                }
+            }
+            else
+            {
+                Console.WriteLine("No records to display");
+            }
+        }
+
+        // Filter
+        public void FilterStudent()
+        {
+            Console.WriteLine();
+            Console.WriteLine("Filter Student");
+            Console.WriteLine("1. Filter by grade");
+            Console.WriteLine("2. Filter by rating");
+            Console.Write("Your choice: ");
+            string choiceLevel3 = Console.ReadLine();
+            while (choiceLevel3 != "1" && choiceLevel3 != "2")
+            {
+                Console.Write("Please input 1 or 2: ");
+                choiceLevel3 = Console.ReadLine();
+            }
+            if(choiceLevel3 == "1")
+            {
+                Console.Write("Student's grade you want to filter: ");
+                double grade = double.Parse(Console.ReadLine());
+                FilterByGrade(grade);
+
+            } else if (choiceLevel3 == "2")
+            {
+                Console.Write("Student's rating you want to filter: ");
+                string rate = Console.ReadLine();
+                FilterByRating(rate);
+            } 
         }
     }
 }

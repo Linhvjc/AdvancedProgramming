@@ -40,7 +40,7 @@
         static void DisplayStudentTable(StudentManagement students)
         {
             Console.WriteLine("List of student");
-            Console.WriteLine("\tID \t\tName \t\t\t\tAge \t\tGrade \t\tRatting");
+            Console.WriteLine("\tID \t\tName \t\t\t\tAge \t\tGrade \t\tRating");
             Console.WriteLine("");
 
             // loop student in list and display
@@ -87,9 +87,12 @@
                 // break while loop
                 if (choiceLevel2 == "Exit" || choiceLevel2 == "exit") break;
                 if (choiceLevel2 == "1") students.CreateStudent();
-                if (choiceLevel2 == "2") students.UpdateStudent();
-                if (choiceLevel2 == "3") students.DeleteStudent();
-                if (choiceLevel2 == "4") students.SearchStudent();
+                else if (choiceLevel2 == "2") students.UpdateStudent();
+                else if (choiceLevel2 == "3") students.DeleteStudent();
+                else if (choiceLevel2 == "4") students.SearchStudent();
+                else if (choiceLevel2 == "5") students.FilterStudent();
+                Console.WriteLine("Enter to continue.");
+                Console.ReadLine();
                 Console.WriteLine();
             }
             

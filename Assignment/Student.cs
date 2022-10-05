@@ -35,7 +35,7 @@ namespace Assignment
 
         public string GettingGrade()
         {
-            return gradeStrategy.RattingGrade();
+            return gradeStrategy.RatingGrade();
         }
 
         public override void DisplayInformation()

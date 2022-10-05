@@ -8,6 +8,6 @@ namespace Assignment
 {
     internal interface IGradeStrategy
     {
-        string RattingGrade();
+        string RatingGrade();
     }
 }
