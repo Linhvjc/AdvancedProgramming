@@ -1,4 +1,6 @@
-﻿namespace Assignment
+﻿using System.Data;
+
+namespace Assignment
 {
     internal class Program
     {
@@ -36,34 +38,22 @@
 
         }
 
-        // Display list student
-        static void DisplayStudentTable(StudentManagement students)
-        {
-            Console.WriteLine("List of student");
-            Console.WriteLine("\tID \t\tName \t\t\t\tAge \t\tGrade \t\tRating");
-            Console.WriteLine("");
-
-            // loop student in list and display
-            foreach (Student student in students.ListOfStudent)
-            {
-                student.DisplayInformation();
-            }
-        }
-
-
         // Student menu
         static void StudentMenu(StudentManagement students)
         {
-            while(true)
+            while (true)
             {
+                Console.WriteLine("_______________________________________________________________________" +
+                    "_________________________________________________");
                 Console.WriteLine();
                 Console.WriteLine("\t\t\t\t\t Student menu");
 
                 // check if the list is empty
-                if(students.ListOfStudent.Count ==0)
+                if (students.ListOfStudent.Count == 0)
                 {
                     Console.WriteLine("\t\t\t\t    No records to display");
-                } else
+                }
+                else
                 {
                     DisplayStudentTable(students);
                 }
@@ -77,7 +67,7 @@
                 string choiceLevel2 = Console.ReadLine();
                 while (choiceLevel2 != "1" && choiceLevel2 != "2" &&
                     choiceLevel2 != "3" && choiceLevel2 != "4" && choiceLevel2 != "5" &&
-                    choiceLevel2 != "Exit" && choiceLevel2 != "exit")
+                    choiceLevel2 != "6" && choiceLevel2 != "Exit" && choiceLevel2 != "exit")
                 {
                     Console.Write("Please input from 1 to 5: ");
                     choiceLevel2 = Console.ReadLine();
@@ -91,11 +81,12 @@
                 else if (choiceLevel2 == "3") students.DeleteStudent();
                 else if (choiceLevel2 == "4") students.SearchStudent();
                 else if (choiceLevel2 == "5") students.FilterStudent();
+                else if (choiceLevel2 == "6") students.SortStudent();
                 Console.WriteLine("Enter to continue.");
                 Console.ReadLine();
                 Console.WriteLine();
             }
-            
+
         }
 
         static void LecturerMenu()
@@ -103,6 +94,21 @@
             Console.WriteLine();
             Console.WriteLine("Lecturer menu");
         }
+
+        // Display list student
+        static void DisplayStudentTable(StudentManagement students)
+        {
+            Console.WriteLine("\tID \t\tName \t\t\t\tAge \t\tGrade \t\tRating");
+            Console.WriteLine("");
+            // loop student in list and display
+            foreach (Student student in students.ListOfStudent)
+            {
+                student.DisplayInformation();
+            }
+        }
+
+
+        
 
         
     }

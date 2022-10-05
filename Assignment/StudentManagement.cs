@@ -292,5 +292,54 @@ namespace Assignment
                 FilterByRating(rate);
             } 
         }
+
+        // Sort student 
+        public void SortStudent()
+        {
+            List<Student> newList = new List<Student>();
+            foreach(Student student in this.ListOfStudent)
+            {
+                newList.Add(student);
+            }
+            Console.WriteLine();
+            Console.WriteLine("Sort Student");
+            Console.WriteLine("1. Sort by name");
+            Console.WriteLine("2. Sort by grade");
+            Console.Write("Your choice: ");
+            string choiceLevel3 = Console.ReadLine();
+            while (choiceLevel3 != "1" && choiceLevel3 != "2")
+            {
+                Console.Write("Please input 1 or 2: ");
+                choiceLevel3 = Console.ReadLine();
+            }
+            if (choiceLevel3 == "1")
+            {
+                newList.Sort((x, y) =>
+                {
+                    int ret = String.Compare(x.Name, y.Name);
+                    return ret;
+                });
+                Console.WriteLine("\tID \t\tName \t\t\t\tAge \t\tGrade \t\tRating");
+                Console.WriteLine("");
+                // loop student in list and display
+                foreach (Student student in newList)
+                {
+                    student.DisplayInformation();
+                }
+
+            }
+            else if (choiceLevel3 == "2")
+            {
+                newList = newList.OrderBy(x => x.Grade).ToList();
+                Console.WriteLine("\tID \t\tName \t\t\t\tAge \t\tGrade \t\tRating");
+                Console.WriteLine("");
+                // loop student in list and display
+                foreach (Student student in newList)
+                {
+                    student.DisplayInformation();
+                }
+            }
+            
+        }
     }
 }
