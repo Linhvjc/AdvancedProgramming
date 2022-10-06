@@ -42,5 +42,11 @@ namespace Assignment
         {
             Console.WriteLine($"\t{base.Id} \t\t{base.Name} \t\t\t{base.Age} \t\t{this.Grade} \t\t{this.GettingGrade()}");
         }
+
+        public override void DisplayInfoWhenSearchOrFilter()
+        {
+            Console.WriteLine($"ID: {this.Id}, Name: {this.Name}, Age: {this.Age}" +
+                                $", Grade: {this.Grade}, Rating: {this.GettingGrade()}");
+        }
     }
 }

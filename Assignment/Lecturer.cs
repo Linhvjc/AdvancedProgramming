@@ -41,5 +41,11 @@ namespace Assignment
             Console.WriteLine($"\t{base.Id} \t\t{base.Name} \t\t\t{base.Age} " +
                 $"\t\t{this.yearExperience} \t\t\t\t{this.GettingExperience()}");
         }
+
+        public override void DisplayInfoWhenSearchOrFilter()
+        {
+            Console.WriteLine($"ID: {this.Id}, Name: {this.Name}, Age: {this.Age}" +
+                                $", Year: {this.YearExperience}, Rating: {this.GettingExperience()}");
+        }
     }
 }

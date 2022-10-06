@@ -20,34 +20,39 @@ namespace Assignment
             Console.WriteLine();
             Console.WriteLine("Create new lecturer.");
             Console.WriteLine("Format: <ID>, <Name>, <Age>, <Year>. Example: 102, Phan Nhat Linh, 20, 3");
-            Console.Write("New lecturer information: ");
-
-            // Input info
-            var info = Console.ReadLine();
-            info = info.Trim();
-            var infoArr = info.Split(",");
-            infoArr = RemoveSpace(infoArr);
-
-            // handle add student
-            if (infoArr.Length == 4)
+            
+            while(true)
             {
-                Lecturer lecturer = new
-                    Lecturer(infoArr[0], infoArr[1], int.Parse(infoArr[2]), int.Parse(infoArr[3]));
-                if (!checkIDExist(lecturer.Id))
+                Console.Write("New lecturer information (type \"End\" to cancel): ");
+
+                // Input info
+                var info = Console.ReadLine();
+                info = info.Trim();
+                if (info == "end" || info == "End") break;
+                var infoArr = info.Split(",");
+                infoArr = RemoveSpace(infoArr);
+
+                // handle add student
+                if (infoArr.Length == 4)
                 {
-                    SettingRating(lecturer);
-                    this.ListOfLecturer.Add(lecturer);
-                    Console.WriteLine("Create lecturer successfully");
+                    Lecturer lecturer = new
+                        Lecturer(infoArr[0], infoArr[1], int.Parse(infoArr[2]), int.Parse(infoArr[3]));
+                    if (!checkIDExist(lecturer.Id))
+                    {
+                        SettingRating(lecturer);
+                        this.ListOfLecturer.Add(lecturer);
+                        Console.WriteLine("Create lecturer successfully");
+                    }
+                    else
+                    {
+                        Console.WriteLine("ID already exist!");
+                    }
+
                 }
                 else
                 {
-                    Console.WriteLine("ID already exist!");
+                    Console.WriteLine("Wrong format!");
                 }
-
-            }
-            else
-            {
-                Console.WriteLine("Wrong format!");
             }
         }
 

@@ -40,5 +40,9 @@ namespace Assignment
         {
             
         }
+        public virtual void DisplayInfoWhenSearchOrFilter()
+        {
+
+        }
     }
 }

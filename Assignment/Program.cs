@@ -1,4 +1,6 @@
-﻿using System.Data;
+﻿using System;
+using System.Collections.Generic;
+using System.Data;
 
 namespace Assignment
 {
@@ -6,8 +8,8 @@ namespace Assignment
     {
         static void Main(string[] args)
         {
-            StudentManagement students = new StudentManagement();
-            LecturerManagerment lecturers = new LecturerManagerment();
+            List<Person> students = new List<Person>();
+            List<Person> lecturers = new List<Person>();
             while (true)
             {
                 Console.WriteLine();
@@ -21,7 +23,7 @@ namespace Assignment
                 string choiceLevel1 = Console.ReadLine();
 
                 // Validate input
-                while(choiceLevel1 != "1" && choiceLevel1 != "2"
+                while (choiceLevel1 != "1" && choiceLevel1 != "2"
                     && choiceLevel1 != "Exit" && choiceLevel1 != "exit")
                 {
                     Console.Write("Please input 1 or 2: ");
@@ -34,13 +36,13 @@ namespace Assignment
                 if (choiceLevel1 == "1") StudentMenu(students);
                 if (choiceLevel1 == "2") LecturerMenu(lecturers);
             }
-            
+
 
 
         }
 
         // Student menu
-        static void StudentMenu(StudentManagement students)
+        static void StudentMenu(List<Person> students)
         {
             while (true)
             {
@@ -48,9 +50,9 @@ namespace Assignment
                     "_________________________________________________");
                 Console.WriteLine();
                 Console.WriteLine("\t\t\t\t\t Student menu");
-
+                Console.WriteLine("List student");
                 // check if the list is empty
-                if (students.ListOfStudent.Count == 0)
+                if (students.Count == 0)
                 {
                     Console.WriteLine("\t\t\t\t    No records to display");
                 }
@@ -59,26 +61,27 @@ namespace Assignment
                     Console.WriteLine("\tID \t\tName \t\t\t\tAge \t\tGrade \t\tRating");
                     Console.WriteLine("");
                     // loop student in list and display
-                    foreach (Student student in students.ListOfStudent)
+                    foreach (Student student in students)
                     {
                         student.DisplayInformation();
                     }
                 }
 
                 Console.WriteLine();
-                Console.WriteLine("1. Create \t2. Update \t3. Delete \t4. Search \t5.Filter \t6.Sort");
+                Console.WriteLine("1. Create \t2. Update \t3. Delete \t4. Search \t5.Filter \t6.Sort \t\t7.Reset");
                 Console.WriteLine("Type \"Exit\" to back");
                 Console.Write("Your choice: ");
 
                 // input choice
-                string choice = GetChoice();
+                string choice = GetChoiceLevel1();
                 if (choice == "Exit" || choice == "exit") break;
-                if (choice == "1") students.CreateStudent();
-                else if (choice == "2") students.UpdateStudent();
-                else if (choice == "3") students.DeleteStudent();
-                else if (choice == "4") students.SearchStudent();
-                else if (choice == "5") students.FilterStudent();
-                else if (choice == "6") students.SortStudent();
+                if (choice == "1") Create(students, "Student");
+                else if (choice == "2") Update(students, "Student");
+                else if (choice == "3") Delete(students, "Student");
+                else if (choice == "4") Search(students, "Student");
+                else if (choice == "5") Filter(students, "Student");
+                else if (choice == "6") Sort(students, "Student");
+                else if (choice == "7") Reset(students, "Student");
                 Console.WriteLine("Enter to continue.");
                 Console.ReadLine();
                 Console.WriteLine();
@@ -86,17 +89,18 @@ namespace Assignment
 
         }
 
-        static void LecturerMenu(LecturerManagerment lecturers)
+        static void LecturerMenu(List<Person> lecturers)
         {
-            while(true)
+            while (true)
             {
                 Console.WriteLine("_______________________________________________________________________" +
                     "_________________________________________________");
                 Console.WriteLine();
                 Console.WriteLine("\t\t\t\t\t Lecturer menu");
+                Console.WriteLine("List lecturer");
 
                 // check if the list is empty
-                if (lecturers.ListOfLecturer.Count == 0)
+                if (lecturers.Count == 0)
                 {
                     Console.WriteLine("\t\t\t\t    No records to display");
                 }
@@ -105,40 +109,431 @@ namespace Assignment
                     Console.WriteLine("\tID \t\tName \t\t\t\tAge \t\tYear Experience \t\tRating");
                     Console.WriteLine("");
                     // loop student in list and display
-                    foreach (Lecturer lecturer in lecturers.ListOfLecturer)
+                    foreach (Lecturer lecturer in lecturers)
                     {
                         lecturer.DisplayInformation();
                     }
                 }
 
                 Console.WriteLine();
-                Console.WriteLine("1. Create \t2. Update \t3. Delete \t4. Search \t5.Filter \t6.Sort");
+                Console.WriteLine("1. Create \t2. Update \t3. Delete \t4. Search \t5.Filter \t6.Sort \t\t7.Reset");
                 Console.WriteLine("Type \"Exit\" to back");
                 Console.Write("Your choice: ");
 
                 // input choice
-                string choice = GetChoice();
+                string choice = GetChoiceLevel1();
                 if (choice == "Exit" || choice == "exit") break;
-                if (choice == "1") lecturers.CreateLecturer();
-                else if (choice == "2") lecturers.UpdateLecturer();
-                else if (choice == "3") lecturers.DeleteLecturer();
-                else if (choice == "4") lecturers.SearchLecturer();
-                else if (choice == "5") lecturers.FilterLecturer();
-                else if (choice == "6") lecturers.SortLecturer();
+                if (choice == "1") Create(lecturers, "Lecturer");
+                else if (choice == "2") Update(lecturers, "Lecturer");
+                else if (choice == "3") Delete(lecturers, "Lecturer");
+                else if (choice == "4") Search(lecturers, "Lecturer");
+                else if (choice == "5") Filter(lecturers, "Lecturer");
+                else if (choice == "6") Sort(lecturers, "Lecturer");
+                else if (choice == "7") Reset(lecturers, "Lecturer");
                 Console.WriteLine("Enter to continue.");
                 Console.ReadLine();
                 Console.WriteLine();
             }
-            
+
 
         }
 
-        static string GetChoice()
+        // 1. Create object
+        static void Create(List<Person> list, string objName)
+        {
+            Console.WriteLine();
+            Console.WriteLine($"Create new {objName}");
+            if (objName == "Student")
+            {
+                Console.WriteLine("Format: <ID>, <Name>, <Age>, <Grade>. Example: 102, Phan Nhat Linh, 20, 8.5");
+            }
+            else if (objName == "Lecturer")
+            {
+                Console.WriteLine("Format: <ID>, <Name>, <Age>, <Year>. Example: 102, Phan Nhat Linh, 20, 3");
+            }
+            Console.WriteLine();
+            while (true)
+            {
+                Console.Write($"New {objName} information (type \"End\" to cancel): ");
+                // Input info
+                var info = Console.ReadLine();
+                info = info.Trim();
+                if (info == "") continue;
+                if (info == "end" || info == "End") break;
+                var infoArr = info.Split(",");
+                infoArr = RemoveSpace(infoArr);
+
+                // handle add student
+                if (infoArr.Length == 4)
+                {
+                    Person newObj = new Person();
+                    if (objName == "Student")
+                    {
+                        newObj = new
+                            Student(infoArr[0], infoArr[1], int.Parse(infoArr[2]), double.Parse(infoArr[3]));
+                    }
+                    else if (objName == "Lecturer")
+                    {
+                        newObj = new
+                            Lecturer(infoArr[0], infoArr[1], int.Parse(infoArr[2]), int.Parse(infoArr[3]));
+                    }
+
+                    if (!checkIDExist(newObj.Id, list))
+                    {
+                        SettingRating(newObj, objName);
+                        list.Add(newObj);
+                        Console.WriteLine($"Create {objName} successfully");
+                    }
+                    else
+                    {
+                        Console.WriteLine("ID already exist!");
+                    }
+
+                }
+                else
+                {
+                    Console.WriteLine("Wrong format!");
+                }
+            }
+        }
+
+        // 2. Update Object
+        static void Update(List<Person> list, string objName)
+        {
+            Console.WriteLine();
+            Console.WriteLine($"Update {objName}");
+            Console.Write($"ID {objName} you want to update: ");
+            string id = Console.ReadLine();
+            if (checkIDExist(id, list))
+            {
+                Person person = GetObjectById(id, list);
+                // Input info
+                Console.WriteLine();
+
+                if (objName == "Student")
+                {
+                    Console.WriteLine("Format: <Name>, <Age>, <Grade>. Example: Phan Nhat Linh, 20, 8.5");
+                }
+                else if (objName == "Lecturer")
+                {
+                    Console.WriteLine("Format: <Name>, <Age>, <Year>. Example: Phan Nhat Linh, 20, 6");
+                }
+                Console.Write($"{objName} information: ");
+                var info = Console.ReadLine();
+                info = info.Trim();
+                var infoArr = info.Split(",");
+                infoArr = RemoveSpace(infoArr);
+                if (infoArr.Length == 3)
+                {
+                    //Student student = new
+                    //    Student(infoArr[0], infoArr[1], int.Parse(infoArr[2]), double.Parse(infoArr[3]));
+                    person.Name = infoArr[0];
+                    person.Age = int.Parse(infoArr[1]);
+                    if (objName == "Student")
+                    {
+                        ((Student)person).Grade = double.Parse(infoArr[2]);
+                    }
+                    else if (objName == "Lecturer")
+                    {
+                        ((Lecturer)person).YearExperience = int.Parse(infoArr[2]);
+                    }
+
+                    SettingRating(person, objName);
+                    Console.WriteLine("Update successfully");
+                }
+                else
+                {
+                    Console.WriteLine("Wrong format!");
+                }
+            }
+            else
+            {
+                Console.WriteLine($"{objName} ID does not exist");
+            }
+        }
+
+        // 3.Delete Object
+        static void Delete(List<Person> list, string objName)
+        {
+            Console.WriteLine();
+            Console.WriteLine($"Delete {objName}");
+            Console.Write($"ID {objName} you want to delete: ");
+            string id = Console.ReadLine();
+            if (checkIDExist(id, list))
+            {
+                list.Remove(GetObjectById(id, list));
+                Console.WriteLine($"Delete {objName} successfully");
+            }
+            else
+            {
+                Console.WriteLine($"{objName} ID does not exist");
+            }
+        }
+
+        // 4.Search Object
+        static void Search(List<Person> list, string objName)
+        {
+            Console.WriteLine();
+            Console.WriteLine($"Search {objName}");
+            Console.WriteLine("1. Search by ID");
+            Console.WriteLine("2. Search by Name");
+            Console.Write("Your choice: ");
+            string choice = GetChoiceLevel2();
+            if (choice == "1")
+            {
+                Console.Write($"ID {objName} you want to find: ");
+                string id = Console.ReadLine();
+                if (checkIDExist(id, list))
+                {
+                    Person person = GetObjectById(id, list);
+                    Console.WriteLine("Result:");
+                    person.DisplayInfoWhenSearchOrFilter();
+                }
+                else
+                {
+                    Console.WriteLine($"{objName} ID does not exist");
+                }
+            }
+            else if (choice == "2")
+            {
+                Console.Write($"{objName}'s name you want to find: ");
+                string name = Console.ReadLine();
+                if (checkNameExist(name, list))
+                {
+                    Console.WriteLine("Result:");
+                    foreach (Person person in GetObjectByName(name, list))
+                    {
+                        person.DisplayInfoWhenSearchOrFilter();
+                    }
+                }
+                else
+                {
+                    Console.WriteLine($"{objName} Name does not exist");
+                }
+
+            }
+
+        }
+
+        // 5.Filter Object
+        static void Filter(List<Person> list, string objName)
+        {
+            Console.WriteLine();
+            Console.WriteLine($"Filter {objName}");
+            if (objName == "Student")
+            {
+                Console.WriteLine("1. Filter by grade");
+                Console.WriteLine("2. Filter by rating");
+            }
+            else if (objName == "Lecturer")
+            {
+                Console.WriteLine("1. Filter by year experience");
+                Console.WriteLine("2. Filter by rating");
+            }
+
+            Console.Write("Your choice: ");
+            string choice = GetChoiceLevel2();
+            if (choice == "1")
+            {
+
+                if (objName == "Student")
+                {
+                    Console.Write("Student's grade you want to filter: ");
+                    double grade = double.Parse(Console.ReadLine());
+                    FilterByGrade(grade, list);
+                }
+                else if (objName == "Lecturer")
+                {
+                    Console.Write("Lecturer's year experience you want to filter: ");
+                    int year = int.Parse(Console.ReadLine());
+                    FilterByYear(year, list);
+                }
+
+            }
+            else if (choice == "2")
+            {
+                Console.Write($"{objName}'s rating you want to filter: ");
+                string rate = Console.ReadLine();
+                FilterByRating(rate, list, objName);
+            }
+        }
+
+        // 6. Sort Object 
+        static void Sort(List<Person> list, string objName)
+        {
+            Console.WriteLine();
+            Console.WriteLine($"Sort {objName}");
+            Console.WriteLine("1. Sort by name");
+            if (objName == "Student")
+            {
+                Console.WriteLine("2. Sort by grade");
+            }
+            else if (objName == "Lecturer")
+            {
+                Console.WriteLine("2. Sort by year experience");
+            }
+            List<Person> newList = new List<Person>();
+            foreach (Person person in list)
+            {
+                newList.Add(person);
+            }
+            Console.Write("Your choice: ");
+            string choice = GetChoiceLevel2();
+            if (choice == "1")
+            {
+                newList.Sort((x, y) =>
+                {
+                    int ret = String.Compare(x.Name, y.Name);
+                    return ret;
+                });
+                Console.WriteLine("\tID \t\tName \t\t\t\tAge \t\tGrade \t\tRating");
+                Console.WriteLine("");
+                // loop student in list and display
+                foreach (Person person in newList)
+                {
+                    person.DisplayInformation();
+                }
+
+            }
+            else if (choice == "2")
+            {
+                if (objName == "Student")
+                {
+                    newList = newList.OrderBy(x => ((Student)x).Grade).ToList();
+                    Console.WriteLine("\tID \t\tName \t\t\t\tAge \t\tGrade \t\tRating");
+                }
+                else if (objName == "Lecturer")
+                {
+                    newList = newList.OrderBy(x => ((Lecturer)x).YearExperience).ToList();
+                    Console.WriteLine("\tID \t\tName \t\t\t\tAge \t\tYear Experience \t\tRating");
+                }
+                Console.WriteLine("");
+                // loop student in list and display
+                foreach (Person person in newList)
+                {
+                    person.DisplayInformation();
+                }
+            }
+
+        }
+
+        // 7.Reset list
+        static void Reset(List<Person> list, string objName)
+        {
+            Console.WriteLine();
+            Console.Write($"Are you sure to reset list {objName}? (Y/N) Default Y: ");
+            string choice = Console.ReadLine();
+            choice = choice.Trim();
+            while (choice != "Y" && choice != "y" &&
+                choice != "N" && choice != "n" && choice != "")
+            {
+                Console.Write("Wrong input. Please type Y or N: ");
+                choice = Console.ReadLine();
+                choice = choice.Trim();
+            }
+            if (choice == "Y" || choice == "y" || choice == "")
+            {
+                list.Clear();
+                Console.WriteLine("Reset list successfully");
+            }
+            else if (choice == "N" || choice == "n")
+            {
+                Console.WriteLine("You canceled the action");
+            }
+        }
+
+        // Remove space
+        static string[] RemoveSpace(string[] arr)
+        {
+            for (int i = 0; i < arr.Length; i++)
+            {
+                arr[i] = arr[i].Trim();
+            }
+            return arr;
+        }
+
+        // Check ID exist
+        static bool checkIDExist(string id, List<Person> list)
+        {
+            foreach (Person obj in list)
+            {
+                if (obj.Id == id)
+                {
+                    return true;
+                }
+            }
+            return false;
+        }
+
+        // Setting Rating
+        static void SettingRating(Person person, string objName)
+        { 
+            if (objName == "Student")
+            {
+                if (((Student)person).Grade < 5) ((Student)person).GradeStrategy = new FailStrategy();
+                else if (((Student)person).Grade <= 7) ((Student)person).GradeStrategy = new PassStrategy();
+                else if (((Student)person).Grade <= 8.5) ((Student)person).GradeStrategy = new MeritStrategy();
+                else if (((Student)person).Grade <= 10) ((Student)person).GradeStrategy = new DistinctionStrategy();
+            } else if (objName == "Lecturer")
+            {
+                if (((Lecturer)person).YearExperience < 2) ((Lecturer)person).ExperienceStrategy = new JuniorStrategy();
+                else if (((Lecturer)person).YearExperience < 4) ((Lecturer)person).ExperienceStrategy = new MiddleStrategy();
+                else if (((Lecturer)person).YearExperience > 6) ((Lecturer)person).ExperienceStrategy = new SeniorStrategy();
+            }
+        }
+
+        // Get Object by ID
+        static Person GetObjectById(string id, List<Person> list)
+        {
+            foreach (Person person in list)
+            {
+                if (person.Id == id) return person;
+            }
+            return new Person();
+        }
+
+        // Getchoicelevel2
+        static string GetChoiceLevel2()
+        {
+            string choice = Console.ReadLine();
+            while (choice != "1" && choice != "2")
+            {
+                Console.Write("Please input 1 or 2: ");
+                choice = Console.ReadLine();
+            }
+            return choice;
+        }
+
+        // Check Name exist
+        static bool checkNameExist(string name, List<Person> list)
+        {
+            foreach (Person person in list)
+            {
+                if (person.Name == name)
+                {
+                    return true;
+                }
+            }
+            return false;
+        }
+
+        // Get Object by name
+        static List<Person> GetObjectByName(string name, List<Person> list)
+        {
+            List<Person> newList = new List<Person>();
+            foreach (Person person in list)
+            {
+                if (person.Name == name) newList.Add(person);
+            }
+            return newList;
+        }
+
+        static string GetChoiceLevel1()
         {
             string choice = Console.ReadLine();
             while (choice != "1" && choice != "2" &&
                 choice != "3" && choice != "4" && choice != "5" &&
-                choice != "6" && choice != "Exit" && choice != "exit")
+                choice != "6" && choice != "7" && choice != "Exit" && choice != "exit")
             {
                 Console.Write("Please input from 1 to 5: ");
                 choice = Console.ReadLine();
@@ -146,9 +541,77 @@ namespace Assignment
             return choice;
         }
 
+        // Filter by grade
+        static void FilterByGrade(double grade, List<Person> list)
+        {
+            List<Person> newList = new List<Person>();
+            foreach (Student student in list)
+            {
+                if (student.Grade == grade) newList.Add(student);
+            }
+            if (newList.Count > 0)
+            {
+                foreach (Student student in newList)
+                {
+                    Console.WriteLine($"ID: {student.Id}, Name: {student.Name}, Age: {student.Age}" +
+                            $", Grade: {student.Grade}, Rating: {student.GettingGrade()}");
+                }
+            }
+            else
+            {
+                Console.WriteLine("No records to display");
+            }
+        }
 
-        
+        // Filter by Year
+        static void FilterByYear(int year, List<Person> list)
+        {
+            List<Lecturer> newList = new List<Lecturer>();
+            foreach (Lecturer lecturer in list)
+            {
+                if (lecturer.YearExperience == year) newList.Add(lecturer);
+            }
+            if (newList.Count > 0)
+            {
+                foreach (Lecturer lecturer in newList)
+                {
+                    Console.WriteLine($"ID: {lecturer.Id}, Name: {lecturer.Name}, Age: {lecturer.Age}" +
+                            $", Grade: {lecturer.YearExperience}, Rating: {lecturer.GettingExperience()}");
+                }
+            }
+            else
+            {
+                Console.WriteLine("No records to display");
+            }
+        }
 
-        
+        // Filter By Rating
+        static void FilterByRating(string rate, List<Person> list, string objName)
+        {
+            List<Person> newList = new List<Person>();
+            foreach (Person person in list)
+            {
+                if (objName == "Student")
+                {
+                    if (((Student)person).GettingGrade() == rate) newList.Add(person);
+                }
+                else if (objName == "Lecturer")
+                {
+                    if (((Lecturer)person).GettingExperience() == rate) newList.Add(person);
+                }
+            }
+            if (newList.Count > 0)
+            {
+                foreach (Person person in newList)
+                {
+                    person.DisplayInfoWhenSearchOrFilter();
+                }
+            }
+            else
+            {
+                Console.WriteLine("No records to display");
+            }
+        }
+
     }
 }

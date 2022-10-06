@@ -66,33 +66,40 @@ namespace Assignment
             Console.WriteLine();
             Console.WriteLine("Create new student.");
             Console.WriteLine("Format: <ID>, <Name>, <Age>, <Grade>. Example: 102, Phan Nhat Linh, 20, 8.5");
-            Console.Write("New student information: ");
-
-            // Input info
-            var info = Console.ReadLine();
-            info = info.Trim();
-            var infoArr = info.Split(",");
-            infoArr = RemoveSpace(infoArr);
-
-            // handle add student
-            if (infoArr.Length == 4)
+            Console.WriteLine();
+            while (true)
             {
-                Student student = new 
-                    Student(infoArr[0], infoArr[1], int.Parse(infoArr[2]), double.Parse(infoArr[3]));
-                if(!checkIDExist(student.Id))
+                Console.Write("New student information (type \"End\" to cancel): ");
+                // Input info
+                var info = Console.ReadLine();
+                info = info.Trim();
+                if (info == "end" || info == "End") break;
+                var infoArr = info.Split(",");
+                infoArr = RemoveSpace(infoArr);
+
+                // handle add student
+                if (infoArr.Length == 4)
                 {
-                    SettingRating(student);
-                    this.listOfStudent.Add(student);
-                    Console.WriteLine("Create student successfully");
-                } else
-                {
-                    Console.WriteLine("ID already exist!");
+                    Student student = new
+                        Student(infoArr[0], infoArr[1], int.Parse(infoArr[2]), double.Parse(infoArr[3]));
+                    if (!checkIDExist(student.Id))
+                    {
+                        SettingRating(student);
+                        this.listOfStudent.Add(student);
+                        Console.WriteLine("Create student successfully");
+                    }
+                    else
+                    {
+                        Console.WriteLine("ID already exist!");
+                    }
+
                 }
-                
-            } else
-            {
-                Console.Write("Wrong format!");
+                else
+                {
+                    Console.Write("Wrong format!");
+                }
             }
+            
         }
 
         // Get student by ID
