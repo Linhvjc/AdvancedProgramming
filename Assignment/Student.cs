@@ -15,7 +15,7 @@ namespace Assignment
         {
             get { return grade; }
             set { 
-                if( value <0 || value > 10) throw new ArithmeticException("Grade must be from 0 to 10");
+                if( value <0 || value > 10) throw new ArgumentOutOfRangeException(nameof(Grade),"Grade must be from 0 to 10");
                 grade = value; 
             }
         }

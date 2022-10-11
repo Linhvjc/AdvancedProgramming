@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -26,7 +27,7 @@ namespace Assignment
         {
             get { return age; }
             set {
-                if (value < 6 || value > 65) throw new ArgumentException("Age must be from 6 to 65");
+                if (value < 6 || value > 100) throw new ArgumentOutOfRangeException(nameof(Age), "Age must be from 6 to 100");
                 age = value; 
             }
         }

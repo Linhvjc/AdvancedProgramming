@@ -135,7 +135,6 @@ namespace Assignment
                 Console.WriteLine();
             }
 
-
         }
 
         // 1. Create object
@@ -149,7 +148,7 @@ namespace Assignment
             }
             else if (objName == "Lecturer")
             {
-                Console.WriteLine("Format: <ID>, <Name>, <Age>, <Year>. Example: 102, Phan Nhat Linh, 20, 3");
+                Console.WriteLine("Format: <ID>, <Name>, <Age>, <YearExperience>. Example: 102, Phan Nhat Linh, 20, 3");
             }
             Console.WriteLine();
             while (true)
@@ -169,13 +168,34 @@ namespace Assignment
                     try
                     {
                         Person newObj = new Person();
+                        try
+                        {
+                            int.Parse(infoArr[2]);
+                        } catch (Exception e) {
+                            throw new Exception("Type of Age must be integer");
+                        }
                         if (objName == "Student")
                         {
+                            try
+                            {
+                                double.Parse(infoArr[3]);
+                            } catch (Exception e)
+                            {
+                                throw new Exception("Type of Grade must be Double");
+                            }
                             newObj = new
                                 Student(infoArr[0], infoArr[1], int.Parse(infoArr[2]), double.Parse(infoArr[3]));
                         }
                         else if (objName == "Lecturer")
                         {
+                            try
+                            {
+                                int.Parse(infoArr[3]);
+                            }
+                            catch (Exception e)
+                            {
+                                throw new Exception("Type of Year experience must be integer");
+                            }
                             newObj = new
                                 Lecturer(infoArr[0], infoArr[1], int.Parse(infoArr[2]), int.Parse(infoArr[3]));
                         }
@@ -190,7 +210,12 @@ namespace Assignment
                         {
                             Console.WriteLine("ID already exist!");
                         }
-                    } catch (Exception e)
+                    } catch (ArgumentOutOfRangeException a)
+                    {
+                        Console.WriteLine(a.Message);
+                        Console.WriteLine("Create failed");
+                    }
+                    catch (Exception e)
                     {
                         Console.WriteLine(e.Message);
                         Console.WriteLine("Create failed");
@@ -231,21 +256,48 @@ namespace Assignment
                 infoArr = RemoveSpace(infoArr);
                 if (infoArr.Length == 3)
                 {
+                    
                     try
                     {
+                        try
+                        {
+                            int.Parse(infoArr[1]);
+                        }
+                        catch (Exception e)
+                        {
+                            throw new Exception("Type of Age must be integer");
+                        }
                         person.Name = infoArr[0];
                         person.Age = int.Parse(infoArr[1]);
                         if (objName == "Student")
                         {
+                            try
+                            {
+                                double.Parse(infoArr[2]);
+                            } catch (Exception e)
+                            {
+                                throw new Exception("Type of Grade must be Double");
+                            }
                             ((Student)person).Grade = double.Parse(infoArr[2]);
                         }
                         else if (objName == "Lecturer")
                         {
+                            try
+                            {
+                                int.Parse(infoArr[2]);
+                            } catch (Exception e)
+                            {
+                                throw new Exception("Type of Year experience must be integer");
+                            }
                             ((Lecturer)person).YearExperience = int.Parse(infoArr[2]);
                         }
-
                         SettingRating(person, objName);
                         Console.WriteLine("Update successfully");
+                    }
+                    catch(ArgumentOutOfRangeException a)
+                    {
+                        Console.WriteLine(a.Message);
+                        Console.WriteLine("Update failed");
                     }
                     catch(Exception e)
                     {
@@ -479,18 +531,19 @@ namespace Assignment
 
         // Setting Rating
         static void SettingRating(Person person, string objName)
-        { 
+        {
             if (objName == "Student")
             {
                 if (((Student)person).Grade < 5) ((Student)person).GradeStrategy = new FailStrategy();
                 else if (((Student)person).Grade <= 7) ((Student)person).GradeStrategy = new PassStrategy();
                 else if (((Student)person).Grade <= 8.5) ((Student)person).GradeStrategy = new MeritStrategy();
                 else if (((Student)person).Grade <= 10) ((Student)person).GradeStrategy = new DistinctionStrategy();
-            } else if (objName == "Lecturer")
+            }
+            else if (objName == "Lecturer")
             {
-                if (((Lecturer)person).YearExperience < 2) ((Lecturer)person).ExperienceStrategy = new JuniorStrategy();
-                else if (((Lecturer)person).YearExperience < 4) ((Lecturer)person).ExperienceStrategy = new MiddleStrategy();
-                else if (((Lecturer)person).YearExperience > 6) ((Lecturer)person).ExperienceStrategy = new SeniorStrategy();
+                if (((Lecturer)person).YearExperience <= 2) ((Lecturer)person).ExperienceStrategy = new JuniorStrategy();
+                else if (((Lecturer)person).YearExperience < 6) ((Lecturer)person).ExperienceStrategy = new MiddleStrategy();
+                else ((Lecturer)person).ExperienceStrategy = new SeniorStrategy();
             }
         }
 

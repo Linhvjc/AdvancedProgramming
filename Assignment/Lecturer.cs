@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -15,7 +16,7 @@ namespace Assignment
         {
             get { return yearExperience; }
             set { 
-                if(value <0) throw new ArithmeticException("Years of experience must be greater than 0");
+                if(value <0) throw new ArgumentOutOfRangeException(nameof(YearExperience), "Years of experience must be greater than 0");
                 yearExperience = value; 
             }
         }
