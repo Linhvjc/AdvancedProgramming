@@ -25,7 +25,10 @@ namespace Assignment
         public int Age
         {
             get { return age; }
-            set { age = value; }
+            set {
+                if (value < 6 || value > 65) throw new ArgumentException("Age must be from 6 to 65");
+                age = value; 
+            }
         }
 
         public Person() { }

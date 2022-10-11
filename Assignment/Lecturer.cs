@@ -14,7 +14,10 @@ namespace Assignment
         public int YearExperience
         {
             get { return yearExperience; }
-            set { yearExperience = value; }
+            set { 
+                if(value <0) throw new ArithmeticException("Years of experience must be greater than 0");
+                yearExperience = value; 
+            }
         }
         public IExperienceStrategy ExperienceStrategy
         {

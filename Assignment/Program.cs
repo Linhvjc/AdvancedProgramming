@@ -166,29 +166,35 @@ namespace Assignment
                 // handle add student
                 if (infoArr.Length == 4)
                 {
-                    Person newObj = new Person();
-                    if (objName == "Student")
+                    try
                     {
-                        newObj = new
-                            Student(infoArr[0], infoArr[1], int.Parse(infoArr[2]), double.Parse(infoArr[3]));
-                    }
-                    else if (objName == "Lecturer")
-                    {
-                        newObj = new
-                            Lecturer(infoArr[0], infoArr[1], int.Parse(infoArr[2]), int.Parse(infoArr[3]));
-                    }
+                        Person newObj = new Person();
+                        if (objName == "Student")
+                        {
+                            newObj = new
+                                Student(infoArr[0], infoArr[1], int.Parse(infoArr[2]), double.Parse(infoArr[3]));
+                        }
+                        else if (objName == "Lecturer")
+                        {
+                            newObj = new
+                                Lecturer(infoArr[0], infoArr[1], int.Parse(infoArr[2]), int.Parse(infoArr[3]));
+                        }
 
-                    if (!checkIDExist(newObj.Id, list))
+                        if (!checkIDExist(newObj.Id, list))
+                        {
+                            SettingRating(newObj, objName);
+                            list.Add(newObj);
+                            Console.WriteLine($"Create {objName} successfully");
+                        }
+                        else
+                        {
+                            Console.WriteLine("ID already exist!");
+                        }
+                    } catch (Exception e)
                     {
-                        SettingRating(newObj, objName);
-                        list.Add(newObj);
-                        Console.WriteLine($"Create {objName} successfully");
+                        Console.WriteLine(e.Message);
+                        Console.WriteLine("Create failed");
                     }
-                    else
-                    {
-                        Console.WriteLine("ID already exist!");
-                    }
-
                 }
                 else
                 {
@@ -225,21 +231,27 @@ namespace Assignment
                 infoArr = RemoveSpace(infoArr);
                 if (infoArr.Length == 3)
                 {
-                    //Student student = new
-                    //    Student(infoArr[0], infoArr[1], int.Parse(infoArr[2]), double.Parse(infoArr[3]));
-                    person.Name = infoArr[0];
-                    person.Age = int.Parse(infoArr[1]);
-                    if (objName == "Student")
+                    try
                     {
-                        ((Student)person).Grade = double.Parse(infoArr[2]);
-                    }
-                    else if (objName == "Lecturer")
-                    {
-                        ((Lecturer)person).YearExperience = int.Parse(infoArr[2]);
-                    }
+                        person.Name = infoArr[0];
+                        person.Age = int.Parse(infoArr[1]);
+                        if (objName == "Student")
+                        {
+                            ((Student)person).Grade = double.Parse(infoArr[2]);
+                        }
+                        else if (objName == "Lecturer")
+                        {
+                            ((Lecturer)person).YearExperience = int.Parse(infoArr[2]);
+                        }
 
-                    SettingRating(person, objName);
-                    Console.WriteLine("Update successfully");
+                        SettingRating(person, objName);
+                        Console.WriteLine("Update successfully");
+                    }
+                    catch(Exception e)
+                    {
+                        Console.WriteLine(e.Message);
+                        Console.WriteLine("Update failed");
+                    }
                 }
                 else
                 {
