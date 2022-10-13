@@ -9,8 +9,11 @@ namespace Assignment
     {
         static void Main(string[] args)
         {
+            // List object
             List<Person> students = new List<Person>();
             List<Person> lecturers = new List<Person>();
+
+            // Display main menu
             while (true)
             {
                 Console.WriteLine();
@@ -34,6 +37,7 @@ namespace Assignment
 
                 // break while loop
                 if (choiceLevel1 == "Exit" || choiceLevel1 == "exit") break;
+                // switch to other menu
                 if (choiceLevel1 == "1") StudentMenu(students);
                 if (choiceLevel1 == "2") LecturerMenu(lecturers);
             }
@@ -47,12 +51,14 @@ namespace Assignment
         {
             while (true)
             {
+                // create table
                 var tableStudent = new ConsoleTable("ID", "Name", "Age", "Grade", "Rating");
                 Console.WriteLine("_______________________________________________________________________" +
                     "_________________________________________________");
                 Console.WriteLine();
                 Console.WriteLine("\t\t\t\t\t Student menu");
                 Console.WriteLine("List student");
+
                 // check if the list is empty
                 if (students.Count == 0)
                 {
@@ -60,6 +66,7 @@ namespace Assignment
                 }
                 else
                 {
+                    // add row to table
                     foreach (Student student in students)
                     {
                         student.AddRowTable(tableStudent);
@@ -89,10 +96,12 @@ namespace Assignment
 
         }
 
+        // Lecturer menu
         static void LecturerMenu(List<Person> lecturers)
         {
             while (true)
             {
+                // create table
                 var tableTeacher = new ConsoleTable("ID", "Name", "Age", "Year Experience", "Rating");
                 Console.WriteLine("_______________________________________________________________________" +
                     "_________________________________________________");
@@ -107,6 +116,7 @@ namespace Assignment
                 }
                 else
                 {
+                    // add row to table
                     foreach (Lecturer lecturer in lecturers)
                     {
                         lecturer.AddRowTable(tableTeacher);
@@ -141,6 +151,8 @@ namespace Assignment
         {
             Console.WriteLine();
             Console.WriteLine($"Create new {objName}");
+
+            //Display example
             if (objName == "Student")
             {
                 Console.WriteLine("Format: <ID>, <Name>, <Age>, <Grade>. Example: 102, Phan Nhat Linh, 20, 8.5");
@@ -150,6 +162,8 @@ namespace Assignment
                 Console.WriteLine("Format: <ID>, <Name>, <Age>, <YearExperience>. Example: 102, Phan Nhat Linh, 20, 3");
             }
             Console.WriteLine();
+
+            // input information 
             while (true)
             {
                 Console.Write($"New {objName} information (type \"End\" to cancel): ");
@@ -162,19 +176,24 @@ namespace Assignment
                 infoArr = RemoveSpace(infoArr);
 
                 // handle add student
-                if (infoArr.Length == 4)
+                if (infoArr.Length == 4) // check length of argument
                 {
                     try
                     {
                         Person newObj = new Person();
+
+                        // Throw exception when input wrong type of Age
                         try
                         {
                             int.Parse(infoArr[2]);
                         } catch (Exception e) {
                             throw new Exception("Type of Age must be integer");
                         }
+
+                        // if object is Student
                         if (objName == "Student")
                         {
+                            // Throw exception when input wrong type of Grade
                             try
                             {
                                 double.Parse(infoArr[3]);
@@ -182,11 +201,14 @@ namespace Assignment
                             {
                                 throw new Exception("Type of Grade must be Double");
                             }
+                            // Create new Student
                             newObj = new
                                 Student(infoArr[0], infoArr[1], int.Parse(infoArr[2]), double.Parse(infoArr[3]));
                         }
+                        // if object is lecturer
                         else if (objName == "Lecturer")
                         {
+                            // Throw exception when input wrong type of Year experience
                             try
                             {
                                 int.Parse(infoArr[3]);
@@ -195,10 +217,12 @@ namespace Assignment
                             {
                                 throw new Exception("Type of Year experience must be integer");
                             }
+                            //Create new Lecturer
                             newObj = new
                                 Lecturer(infoArr[0], infoArr[1], int.Parse(infoArr[2]), int.Parse(infoArr[3]));
                         }
 
+                        // Check if object is exist
                         if (!checkIDExist(newObj.Id, list))
                         {
                             SettingRating(newObj, objName);
@@ -209,11 +233,13 @@ namespace Assignment
                         {
                             Console.WriteLine("ID already exist!");
                         }
+                    // Catch exception in own class 
                     } catch (ArgumentOutOfRangeException a)
                     {
                         Console.WriteLine(a.Message);
                         Console.WriteLine("Create failed");
                     }
+                    // Catch exception in above
                     catch (Exception e)
                     {
                         Console.WriteLine(e.Message);
@@ -233,13 +259,18 @@ namespace Assignment
             Console.WriteLine();
             Console.WriteLine($"Update {objName}");
             Console.Write($"ID {objName} you want to update: ");
+
+            // input id to update
             string id = Console.ReadLine();
+
+            // check if object is exist
             if (checkIDExist(id, list))
             {
+                // get object by ID
                 Person person = GetObjectById(id, list);
-                // Input info
                 Console.WriteLine();
 
+                // display example
                 if (objName == "Student")
                 {
                     Console.WriteLine("Format: <Name>, <Age>, <Grade>. Example: Phan Nhat Linh, 20, 8.5");
@@ -248,16 +279,20 @@ namespace Assignment
                 {
                     Console.WriteLine("Format: <Name>, <Age>, <Year>. Example: Phan Nhat Linh, 20, 6");
                 }
+
+                // input information
                 Console.Write($"{objName} information: ");
                 var info = Console.ReadLine();
                 info = info.Trim();
                 var infoArr = info.Split(",");
                 infoArr = RemoveSpace(infoArr);
+
+                // check length of argument
                 if (infoArr.Length == 3)
                 {
-                    
                     try
                     {
+                        // Throw exception when input wrong type of Age
                         try
                         {
                             int.Parse(infoArr[1]);
@@ -266,10 +301,14 @@ namespace Assignment
                         {
                             throw new Exception("Type of Age must be integer");
                         }
+                        // set Name and Age to new object
                         person.Name = infoArr[0];
                         person.Age = int.Parse(infoArr[1]);
+
+                        // check object name
                         if (objName == "Student")
                         {
+                            // Throw exception when input wrong type of Grade
                             try
                             {
                                 double.Parse(infoArr[2]);
@@ -277,10 +316,12 @@ namespace Assignment
                             {
                                 throw new Exception("Type of Grade must be Double");
                             }
+                            // Set grade to new object
                             ((Student)person).Grade = double.Parse(infoArr[2]);
                         }
                         else if (objName == "Lecturer")
                         {
+                            // Throw exception when input wrong type of Year experience
                             try
                             {
                                 int.Parse(infoArr[2]);
@@ -288,17 +329,21 @@ namespace Assignment
                             {
                                 throw new Exception("Type of Year experience must be integer");
                             }
+                            // set year experience to new object
                             ((Lecturer)person).YearExperience = int.Parse(infoArr[2]);
                         }
+                        // set ratting to new object
                         SettingRating(person, objName);
                         Console.WriteLine("Update successfully");
                     }
-                    catch(ArgumentOutOfRangeException a)
+                    // Catch exception in own class
+                    catch (ArgumentOutOfRangeException a)
                     {
                         Console.WriteLine(a.Message);
                         Console.WriteLine("Update failed");
                     }
-                    catch(Exception e)
+                    // Catch exception in above
+                    catch (Exception e)
                     {
                         Console.WriteLine(e.Message);
                         Console.WriteLine("Update failed");
@@ -321,9 +366,14 @@ namespace Assignment
             Console.WriteLine();
             Console.WriteLine($"Delete {objName}");
             Console.Write($"ID {objName} you want to delete: ");
+
+            // input id to delete
             string id = Console.ReadLine();
+
+            // check if ID is exist
             if (checkIDExist(id, list))
             {
+                // delete object is found
                 list.Remove(GetObjectById(id, list));
                 Console.WriteLine($"Delete {objName} successfully");
             }
@@ -341,15 +391,24 @@ namespace Assignment
             Console.WriteLine("1. Search by ID");
             Console.WriteLine("2. Search by Name");
             Console.Write("Your choice: ");
+
+            // input choice
             string choice = GetChoiceLevel2();
+            // Search by ID
             if (choice == "1")
             {
                 Console.Write($"ID {objName} you want to find: ");
+
+                // input id to search
                 string id = Console.ReadLine();
+
+                // check object is exist
                 if (checkIDExist(id, list))
                 {
+                    // get object by ID
                     Person person = GetObjectById(id, list);
                     Console.WriteLine("Result:");
+                    // display information
                     person.DisplayInfoWhenSearchOrFilter();
                 }
                 else
@@ -357,15 +416,20 @@ namespace Assignment
                     Console.WriteLine($"{objName} ID does not exist");
                 }
             }
+            // Search by name
             else if (choice == "2")
             {
                 Console.Write($"{objName}'s name you want to find: ");
+                // input name to search
                 string name = Console.ReadLine();
+
+                // check if object is exist
                 if (checkNameExist(name, list))
                 {
                     Console.WriteLine("Result:");
                     foreach (Person person in GetObjectByName(name, list))
                     {
+                        // display information
                         person.DisplayInfoWhenSearchOrFilter();
                     }
                 }
@@ -383,28 +447,34 @@ namespace Assignment
         {
             Console.WriteLine();
             Console.WriteLine($"Filter {objName}");
+
+            // display option when object is Stdent
             if (objName == "Student")
             {
                 Console.WriteLine("1. Filter by grade");
                 Console.WriteLine("2. Filter by rating");
             }
+            // display option when object is Lecturer
             else if (objName == "Lecturer")
             {
                 Console.WriteLine("1. Filter by year experience");
                 Console.WriteLine("2. Filter by rating");
             }
 
+            // input choice
             Console.Write("Your choice: ");
             string choice = GetChoiceLevel2();
+
             if (choice == "1")
             {
-
+                // Input and filter by grade
                 if (objName == "Student")
                 {
                     Console.Write("Student's grade you want to filter: ");
                     double grade = double.Parse(Console.ReadLine());
                     FilterByGrade(grade, list);
                 }
+                // Input and filter by year experience
                 else if (objName == "Lecturer")
                 {
                     Console.Write("Lecturer's year experience you want to filter: ");
@@ -413,6 +483,7 @@ namespace Assignment
                 }
 
             }
+            // Input and filter by rating
             else if (choice == "2")
             {
                 Console.Write($"{objName}'s rating you want to filter: ");
@@ -427,7 +498,11 @@ namespace Assignment
             Console.WriteLine();
             Console.WriteLine($"Sort {objName}");
             Console.WriteLine("1. Sort by name");
+
+            // create new table
             var table = new ConsoleTable();
+
+            // check object name to add header to the table
             if (objName == "Student")
             {
                 Console.WriteLine("2. Sort by grade");
@@ -438,13 +513,21 @@ namespace Assignment
                 Console.WriteLine("2. Sort by year experience");
                 table = new ConsoleTable("ID", "Name", "Age", "Year Experience", "Rating");
             }
+
+            // create new list
             List<Person> newList = new List<Person>();
+
+            // add person to new list
             foreach (Person person in list)
             {
                 newList.Add(person);
             }
+
+            // input choice
             Console.Write("Your choice: ");
             string choice = GetChoiceLevel2();
+
+            // Sort by name
             if (choice == "1")
             {
                 newList.Sort((x, y) =>
@@ -452,8 +535,9 @@ namespace Assignment
                     int ret = String.Compare(x.Name, y.Name);
                     return ret;
                 });
-                Console.WriteLine("");
-                // loop student in list and display
+                Console.WriteLine();
+                
+                // add row to new table
                 if(objName == "Student")
                 {
                     foreach (Student student in newList)
@@ -473,6 +557,7 @@ namespace Assignment
             }
             else if (choice == "2")
             {
+                // sort by grade
                 if (objName == "Student")
                 {
                     newList = newList.OrderBy(x => ((Student)x).Grade).ToList();
@@ -481,6 +566,7 @@ namespace Assignment
                         student.AddRowTable(table);
                     }
                 }
+                // sort by year experience
                 else if (objName == "Lecturer")
                 {
                     newList = newList.OrderBy(x => ((Lecturer)x).YearExperience).ToList();
@@ -489,6 +575,7 @@ namespace Assignment
                         lecturer.AddRowTable(table);
                     }
                 }
+                // display table
                 Console.WriteLine(table.ToString());
             }
 
@@ -497,10 +584,13 @@ namespace Assignment
         // 7.Reset list
         static void Reset(List<Person> list, string objName)
         {
+            // confirm to reset list
             Console.WriteLine();
             Console.Write($"Are you sure to reset list {objName}? (Y/N) Default Y: ");
             string choice = Console.ReadLine();
             choice = choice.Trim();
+
+            // validate choice
             while (choice != "Y" && choice != "y" &&
                 choice != "N" && choice != "n" && choice != "")
             {
@@ -508,6 +598,7 @@ namespace Assignment
                 choice = Console.ReadLine();
                 choice = choice.Trim();
             }
+            // reset list
             if (choice == "Y" || choice == "y" || choice == "")
             {
                 list.Clear();
@@ -522,6 +613,7 @@ namespace Assignment
         // Remove space
         static string[] RemoveSpace(string[] arr)
         {
+            // clear space of each item
             for (int i = 0; i < arr.Length; i++)
             {
                 arr[i] = arr[i].Trim();
@@ -532,6 +624,7 @@ namespace Assignment
         // Check ID exist
         static bool checkIDExist(string id, List<Person> list)
         {
+            // loop the list to check the person is exist
             foreach (Person obj in list)
             {
                 if (obj.Id == id)
@@ -545,6 +638,7 @@ namespace Assignment
         // Setting Rating
         static void SettingRating(Person person, string objName)
         {
+            // check the condition to ratting
             if (objName == "Student")
             {
                 if (((Student)person).Grade < 5) ((Student)person).GradeStrategy = new FailStrategy();
@@ -563,6 +657,7 @@ namespace Assignment
         // Get Object by ID
         static Person GetObjectById(string id, List<Person> list)
         {
+            // loop the list and find ID to return object by id
             foreach (Person person in list)
             {
                 if (person.Id == id) return person;
@@ -598,6 +693,7 @@ namespace Assignment
         // Get Object by name
         static List<Person> GetObjectByName(string name, List<Person> list)
         {
+            // create new list to contain object found by name
             List<Person> newList = new List<Person>();
             foreach (Person person in list)
             {
@@ -622,6 +718,7 @@ namespace Assignment
         // Filter by grade
         static void FilterByGrade(double grade, List<Person> list)
         {
+            // create new list to contain object filter by grade
             List<Person> newList = new List<Person>();
             foreach (Student student in list)
             {
@@ -644,6 +741,7 @@ namespace Assignment
         // Filter by Year
         static void FilterByYear(int year, List<Person> list)
         {
+            // create new list to contain object filter by year experience
             List<Lecturer> newList = new List<Lecturer>();
             foreach (Lecturer lecturer in list)
             {
@@ -666,6 +764,7 @@ namespace Assignment
         // Filter By Rating
         static void FilterByRating(string rate, List<Person> list, string objName)
         {
+            // create new list to contain object filter by rating
             List<Person> newList = new List<Person>();
             foreach (Person person in list)
             {
