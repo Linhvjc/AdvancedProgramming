@@ -1,4 +1,5 @@
-﻿using System;
+﻿using ConsoleTables;
+using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
@@ -50,6 +51,11 @@ namespace Assignment
         {
             Console.WriteLine($"ID: {this.Id}, Name: {this.Name}, Age: {this.Age}" +
                                 $", Year: {this.YearExperience}, Rating: {this.GettingExperience()}");
+        }
+
+        public void AddRowTable(ConsoleTable table)
+        {
+            table.AddRow(this.Id, this.Name, this.Age, this.YearExperience, this.GettingExperience());
         }
     }
 }

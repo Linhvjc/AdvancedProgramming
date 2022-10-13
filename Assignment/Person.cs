@@ -1,4 +1,5 @@
-﻿using System;
+﻿using ConsoleTables;
+using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
@@ -47,6 +48,10 @@ namespace Assignment
         public virtual void DisplayInfoWhenSearchOrFilter()
         {
 
+        }
+        public void AddRowTable(ConsoleTable table)
+        {
+            
         }
     }
 }

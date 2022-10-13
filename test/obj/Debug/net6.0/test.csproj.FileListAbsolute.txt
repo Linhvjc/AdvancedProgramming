@@ -13,3 +13,5 @@ D:\GW\Advanced_Programming\code\Assignment\test\obj\Debug\net6.0\refint\test.dll
 D:\GW\Advanced_Programming\code\Assignment\test\obj\Debug\net6.0\test.pdb
 D:\GW\Advanced_Programming\code\Assignment\test\obj\Debug\net6.0\test.genruntimeconfig.cache
 D:\GW\Advanced_Programming\code\Assignment\test\obj\Debug\net6.0\ref\test.dll
+D:\GW\Advanced_Programming\code\Assignment\test\bin\Debug\net6.0\ConsoleTables.dll
+D:\GW\Advanced_Programming\code\Assignment\test\obj\Debug\net6.0\test.csproj.CopyComplete

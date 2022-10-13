@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Data;
+using ConsoleTables;
 
 namespace Assignment
 {
@@ -46,6 +47,7 @@ namespace Assignment
         {
             while (true)
             {
+                var tableStudent = new ConsoleTable("ID", "Name", "Age", "Grade", "Rating");
                 Console.WriteLine("_______________________________________________________________________" +
                     "_________________________________________________");
                 Console.WriteLine();
@@ -58,13 +60,11 @@ namespace Assignment
                 }
                 else
                 {
-                    Console.WriteLine("\tID \t\tName \t\t\t\tAge \t\tGrade \t\tRating");
-                    Console.WriteLine("");
-                    // loop student in list and display
                     foreach (Student student in students)
                     {
-                        student.DisplayInformation();
+                        student.AddRowTable(tableStudent);
                     }
+                    Console.WriteLine(tableStudent.ToString());
                 }
 
                 Console.WriteLine();
@@ -93,6 +93,7 @@ namespace Assignment
         {
             while (true)
             {
+                var tableTeacher = new ConsoleTable("ID", "Name", "Age", "Year Experience", "Rating");
                 Console.WriteLine("_______________________________________________________________________" +
                     "_________________________________________________");
                 Console.WriteLine();
@@ -106,13 +107,11 @@ namespace Assignment
                 }
                 else
                 {
-                    Console.WriteLine("\tID \t\tName \t\t\t\tAge \t\tYear Experience \t\tRating");
-                    Console.WriteLine("");
-                    // loop student in list and display
                     foreach (Lecturer lecturer in lecturers)
                     {
-                        lecturer.DisplayInformation();
+                        lecturer.AddRowTable(tableTeacher);
                     }
+                    Console.WriteLine(tableTeacher.ToString());
                 }
 
                 Console.WriteLine();
@@ -428,13 +427,16 @@ namespace Assignment
             Console.WriteLine();
             Console.WriteLine($"Sort {objName}");
             Console.WriteLine("1. Sort by name");
+            var table = new ConsoleTable();
             if (objName == "Student")
             {
                 Console.WriteLine("2. Sort by grade");
+                table = new ConsoleTable("ID", "Name", "Age", "Grade", "Rating");
             }
             else if (objName == "Lecturer")
             {
                 Console.WriteLine("2. Sort by year experience");
+                table = new ConsoleTable("ID", "Name", "Age", "Year Experience", "Rating");
             }
             List<Person> newList = new List<Person>();
             foreach (Person person in list)
@@ -450,13 +452,23 @@ namespace Assignment
                     int ret = String.Compare(x.Name, y.Name);
                     return ret;
                 });
-                Console.WriteLine("\tID \t\tName \t\t\t\tAge \t\tGrade \t\tRating");
                 Console.WriteLine("");
                 // loop student in list and display
-                foreach (Person person in newList)
+                if(objName == "Student")
                 {
-                    person.DisplayInformation();
+                    foreach (Student student in newList)
+                    {
+                        student.AddRowTable(table);
+                    }
                 }
+                else if (objName == "Lecturer")
+                {
+                    foreach (Lecturer lecturer in newList)
+                    {
+                        lecturer.AddRowTable(table);
+                    }
+                }
+                Console.WriteLine(table.ToString());
 
             }
             else if (choice == "2")
@@ -464,19 +476,20 @@ namespace Assignment
                 if (objName == "Student")
                 {
                     newList = newList.OrderBy(x => ((Student)x).Grade).ToList();
-                    Console.WriteLine("\tID \t\tName \t\t\t\tAge \t\tGrade \t\tRating");
+                    foreach (Student student in newList)
+                    {
+                        student.AddRowTable(table);
+                    }
                 }
                 else if (objName == "Lecturer")
                 {
                     newList = newList.OrderBy(x => ((Lecturer)x).YearExperience).ToList();
-                    Console.WriteLine("\tID \t\tName \t\t\t\tAge \t\tYear Experience \t\tRating");
+                    foreach (Lecturer lecturer in newList)
+                    {
+                        lecturer.AddRowTable(table);
+                    }
                 }
-                Console.WriteLine("");
-                // loop student in list and display
-                foreach (Person person in newList)
-                {
-                    person.DisplayInformation();
-                }
+                Console.WriteLine(table.ToString());
             }
 
         }
