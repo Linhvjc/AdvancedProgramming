@@ -20,8 +20,9 @@ namespace Assignment
                 Console.WriteLine("\t\t\t\t\t Student and Lecturer management software");
                 Console.WriteLine();
                 // Main menu
-                Console.WriteLine("1. Student management");
-                Console.WriteLine("2. Lecturer management");
+                Console.WriteLine("|------------------------------------------------------------------------|");
+                Console.WriteLine("|     1. Student management         |         2. Lecturer management     |");
+                Console.WriteLine("|------------------------------------------------------------------------|");
                 Console.WriteLine("Type \"Exit\" to exit the program");
                 Console.Write("Your choice: ");
                 string choiceLevel1 = Console.ReadLine();
@@ -75,7 +76,10 @@ namespace Assignment
                 }
 
                 Console.WriteLine();
-                Console.WriteLine("1. Create \t2. Update \t3. Delete \t4. Search \t5.Filter \t6.Sort \t\t7.Reset");
+                Console.WriteLine("Action:");
+                Console.WriteLine("|--------------------------------------------------------------------------------------------------------|");
+                Console.WriteLine("|1. Create |\t2. Update |\t3. Delete |\t4. Search |\t5.Filter |\t6.Sort |\t7.Reset  |");
+                Console.WriteLine("|--------------------------------------------------------------------------------------------------------|");
                 Console.WriteLine("Type \"Exit\" to back");
                 Console.Write("Your choice: ");
 
@@ -125,7 +129,10 @@ namespace Assignment
                 }
 
                 Console.WriteLine();
-                Console.WriteLine("1. Create \t2. Update \t3. Delete \t4. Search \t5.Filter \t6.Sort \t\t7.Reset");
+                Console.WriteLine("Action:");
+                Console.WriteLine("|--------------------------------------------------------------------------------------------------------|");
+                Console.WriteLine("|1. Create |\t2. Update |\t3. Delete |\t4. Search |\t5.Filter |\t6.Sort |\t7.Reset  |");
+                Console.WriteLine("|--------------------------------------------------------------------------------------------------------|");
                 Console.WriteLine("Type \"Exit\" to back");
                 Console.Write("Your choice: ");
 
@@ -256,188 +263,209 @@ namespace Assignment
         // 2. Update Object
         static void Update(List<Person> list, string objName)
         {
-            Console.WriteLine();
-            Console.WriteLine($"Update {objName}");
-            Console.Write($"ID {objName} you want to update: ");
-
-            // input id to update
-            string id = Console.ReadLine();
-
-            // check if object is exist
-            if (checkIDExist(id, list))
+            if (list.Count >0)
             {
-                // get object by ID
-                Person person = GetObjectById(id, list);
                 Console.WriteLine();
+                Console.WriteLine($"Update {objName}");
+                Console.Write($"ID {objName} you want to update: ");
 
-                // display example
-                if (objName == "Student")
-                {
-                    Console.WriteLine("Format: <Name>, <Age>, <Grade>. Example: Phan Nhat Linh, 20, 8.5");
-                }
-                else if (objName == "Lecturer")
-                {
-                    Console.WriteLine("Format: <Name>, <Age>, <Year>. Example: Phan Nhat Linh, 20, 6");
-                }
+                // input id to update
+                string id = Console.ReadLine();
 
-                // input information
-                Console.Write($"{objName} information: ");
-                var info = Console.ReadLine();
-                info = info.Trim();
-                var infoArr = info.Split(",");
-                infoArr = RemoveSpace(infoArr);
-
-                // check length of argument
-                if (infoArr.Length == 3)
+                // check if object is exist
+                if (checkIDExist(id, list))
                 {
-                    try
+                    // get object by ID
+                    Person person = GetObjectById(id, list);
+                    Console.WriteLine();
+
+                    // display example
+                    if (objName == "Student")
                     {
-                        // Throw exception when input wrong type of Age
+                        Console.WriteLine("Format: <Name>, <Age>, <Grade>. Example: Phan Nhat Linh, 20, 8.5");
+                    }
+                    else if (objName == "Lecturer")
+                    {
+                        Console.WriteLine("Format: <Name>, <Age>, <Year>. Example: Phan Nhat Linh, 20, 6");
+                    }
+
+                    // input information
+                    Console.Write($"{objName} information: ");
+                    var info = Console.ReadLine();
+                    info = info.Trim();
+                    var infoArr = info.Split(",");
+                    infoArr = RemoveSpace(infoArr);
+
+                    // check length of argument
+                    if (infoArr.Length == 3)
+                    {
                         try
                         {
-                            int.Parse(infoArr[1]);
+                            // Throw exception when input wrong type of Age
+                            try
+                            {
+                                int.Parse(infoArr[1]);
+                            }
+                            catch (Exception e)
+                            {
+                                throw new Exception("Type of Age must be integer");
+                            }
+                            // set Name and Age to new object
+                            person.Name = infoArr[0];
+                            person.Age = int.Parse(infoArr[1]);
+
+                            // check object name
+                            if (objName == "Student")
+                            {
+                                // Throw exception when input wrong type of Grade
+                                try
+                                {
+                                    double.Parse(infoArr[2]);
+                                }
+                                catch (Exception e)
+                                {
+                                    throw new Exception("Type of Grade must be Double");
+                                }
+                                // Set grade to new object
+                                ((Student)person).Grade = double.Parse(infoArr[2]);
+                            }
+                            else if (objName == "Lecturer")
+                            {
+                                // Throw exception when input wrong type of Year experience
+                                try
+                                {
+                                    int.Parse(infoArr[2]);
+                                }
+                                catch (Exception e)
+                                {
+                                    throw new Exception("Type of Year experience must be integer");
+                                }
+                                // set year experience to new object
+                                ((Lecturer)person).YearExperience = int.Parse(infoArr[2]);
+                            }
+                            // set ratting to new object
+                            SettingRating(person, objName);
+                            Console.WriteLine("Update successfully");
                         }
+                        // Catch exception in own class
+                        catch (ArgumentOutOfRangeException a)
+                        {
+                            Console.WriteLine(a.Message);
+                            Console.WriteLine("Update failed");
+                        }
+                        // Catch exception in above
                         catch (Exception e)
                         {
-                            throw new Exception("Type of Age must be integer");
+                            Console.WriteLine(e.Message);
+                            Console.WriteLine("Update failed");
                         }
-                        // set Name and Age to new object
-                        person.Name = infoArr[0];
-                        person.Age = int.Parse(infoArr[1]);
-
-                        // check object name
-                        if (objName == "Student")
-                        {
-                            // Throw exception when input wrong type of Grade
-                            try
-                            {
-                                double.Parse(infoArr[2]);
-                            } catch (Exception e)
-                            {
-                                throw new Exception("Type of Grade must be Double");
-                            }
-                            // Set grade to new object
-                            ((Student)person).Grade = double.Parse(infoArr[2]);
-                        }
-                        else if (objName == "Lecturer")
-                        {
-                            // Throw exception when input wrong type of Year experience
-                            try
-                            {
-                                int.Parse(infoArr[2]);
-                            } catch (Exception e)
-                            {
-                                throw new Exception("Type of Year experience must be integer");
-                            }
-                            // set year experience to new object
-                            ((Lecturer)person).YearExperience = int.Parse(infoArr[2]);
-                        }
-                        // set ratting to new object
-                        SettingRating(person, objName);
-                        Console.WriteLine("Update successfully");
                     }
-                    // Catch exception in own class
-                    catch (ArgumentOutOfRangeException a)
+                    else
                     {
-                        Console.WriteLine(a.Message);
-                        Console.WriteLine("Update failed");
-                    }
-                    // Catch exception in above
-                    catch (Exception e)
-                    {
-                        Console.WriteLine(e.Message);
-                        Console.WriteLine("Update failed");
+                        Console.WriteLine("Wrong format!");
                     }
                 }
                 else
                 {
-                    Console.WriteLine("Wrong format!");
+                    Console.WriteLine($"{objName} ID does not exist");
                 }
-            }
-            else
+            } else
             {
-                Console.WriteLine($"{objName} ID does not exist");
+                Console.WriteLine("Your list is empty");
             }
         }
 
         // 3.Delete Object
         static void Delete(List<Person> list, string objName)
         {
-            Console.WriteLine();
-            Console.WriteLine($"Delete {objName}");
-            Console.Write($"ID {objName} you want to delete: ");
-
-            // input id to delete
-            string id = Console.ReadLine();
-
-            // check if ID is exist
-            if (checkIDExist(id, list))
+            if(list.Count >0)
             {
-                // delete object is found
-                list.Remove(GetObjectById(id, list));
-                Console.WriteLine($"Delete {objName} successfully");
-            }
-            else
+                Console.WriteLine();
+                Console.WriteLine($"Delete {objName}");
+                Console.Write($"ID {objName} you want to delete: ");
+
+                // input id to delete
+                string id = Console.ReadLine();
+
+                // check if ID is exist
+                if (checkIDExist(id, list))
+                {
+                    // delete object is found
+                    list.Remove(GetObjectById(id, list));
+                    Console.WriteLine($"Delete {objName} successfully");
+                }
+                else
+                {
+                    Console.WriteLine($"{objName} ID does not exist");
+                }
+            } else
             {
-                Console.WriteLine($"{objName} ID does not exist");
+                Console.WriteLine("Your list is empty");
             }
         }
 
         // 4.Search Object
         static void Search(List<Person> list, string objName)
         {
-            Console.WriteLine();
-            Console.WriteLine($"Search {objName}");
-            Console.WriteLine("1. Search by ID");
-            Console.WriteLine("2. Search by Name");
-            Console.Write("Your choice: ");
-
-            // input choice
-            string choice = GetChoiceLevel2();
-            // Search by ID
-            if (choice == "1")
+            if (list.Count >0)
             {
-                Console.Write($"ID {objName} you want to find: ");
+                Console.WriteLine();
+                Console.WriteLine($"Search {objName}");
+                Console.WriteLine("|-------------------------------------------------------------------|");
+                Console.WriteLine("|     1. Search by ID         |         2. Search by Name           |");
+                Console.WriteLine("|-------------------------------------------------------------------|");
+                Console.Write("Your choice: ");
 
-                // input id to search
-                string id = Console.ReadLine();
+                // input choice
+                string choice = GetChoiceLevel2();
+                // Search by ID
+                if (choice == "1")
+                {
+                    Console.Write($"ID {objName} you want to find: ");
 
-                // check object is exist
-                if (checkIDExist(id, list))
-                {
-                    // get object by ID
-                    Person person = GetObjectById(id, list);
-                    Console.WriteLine("Result:");
-                    // display information
-                    person.DisplayInfoWhenSearchOrFilter();
-                }
-                else
-                {
-                    Console.WriteLine($"{objName} ID does not exist");
-                }
-            }
-            // Search by name
-            else if (choice == "2")
-            {
-                Console.Write($"{objName}'s name you want to find: ");
-                // input name to search
-                string name = Console.ReadLine();
+                    // input id to search
+                    string id = Console.ReadLine();
 
-                // check if object is exist
-                if (checkNameExist(name, list))
-                {
-                    Console.WriteLine("Result:");
-                    foreach (Person person in GetObjectByName(name, list))
+                    // check object is exist
+                    if (checkIDExist(id, list))
                     {
+                        // get object by ID
+                        Person person = GetObjectById(id, list);
+                        Console.WriteLine("Result:");
                         // display information
                         person.DisplayInfoWhenSearchOrFilter();
                     }
+                    else
+                    {
+                        Console.WriteLine($"{objName} ID does not exist");
+                    }
                 }
-                else
+                // Search by name
+                else if (choice == "2")
                 {
-                    Console.WriteLine($"{objName} Name does not exist");
-                }
+                    Console.Write($"{objName}'s name you want to find: ");
+                    // input name to search
+                    string name = Console.ReadLine();
 
+                    // check if object is exist
+                    if (checkNameExist(name, list))
+                    {
+                        Console.WriteLine("Result:");
+                        foreach (Person person in GetObjectByName(name, list))
+                        {
+                            // display information
+                            person.DisplayInfoWhenSearchOrFilter();
+                        }
+                    }
+                    else
+                    {
+                        Console.WriteLine($"{objName} Name does not exist");
+                    }
+
+                } 
+            } else
+            {
+                Console.WriteLine("Your list is empty");
             }
 
         }
@@ -445,138 +473,153 @@ namespace Assignment
         // 5.Filter Object
         static void Filter(List<Person> list, string objName)
         {
-            Console.WriteLine();
-            Console.WriteLine($"Filter {objName}");
-
-            // display option when object is Stdent
-            if (objName == "Student")
+            if(list.Count > 0)
             {
-                Console.WriteLine("1. Filter by grade");
-                Console.WriteLine("2. Filter by rating");
-            }
-            // display option when object is Lecturer
-            else if (objName == "Lecturer")
-            {
-                Console.WriteLine("1. Filter by year experience");
-                Console.WriteLine("2. Filter by rating");
-            }
+                Console.WriteLine();
+                Console.WriteLine($"Filter {objName}");
 
-            // input choice
-            Console.Write("Your choice: ");
-            string choice = GetChoiceLevel2();
-
-            if (choice == "1")
-            {
-                // Input and filter by grade
+                // display option when object is Stdent
                 if (objName == "Student")
                 {
-                    Console.Write("Student's grade you want to filter: ");
-                    double grade = double.Parse(Console.ReadLine());
-                    FilterByGrade(grade, list);
+                    Console.WriteLine("|------------------------------------------------------------------------|");
+                    Console.WriteLine("|     1. Filter by grade         |         2. Filter by rating           |");
+                    Console.WriteLine("|------------------------------------------------------------------------|");
                 }
-                // Input and filter by year experience
+                // display option when object is Lecturer
                 else if (objName == "Lecturer")
                 {
-                    Console.Write("Lecturer's year experience you want to filter: ");
-                    int year = int.Parse(Console.ReadLine());
-                    FilterByYear(year, list);
+                    Console.WriteLine("|-------------------------------------------------------------------------------|");
+                    Console.WriteLine("|     1. Filter by year experience         |         2. Filter by rating        |");
+                    Console.WriteLine("|-------------------------------------------------------------------------------|");
                 }
 
-            }
-            // Input and filter by rating
-            else if (choice == "2")
+                // input choice
+                Console.Write("Your choice: ");
+                string choice = GetChoiceLevel2();
+
+                if (choice == "1")
+                {
+                    // Input and filter by grade
+                    if (objName == "Student")
+                    {
+                        Console.Write("Student's grade you want to filter: ");
+                        double grade = double.Parse(Console.ReadLine());
+                        FilterByGrade(grade, list);
+                    }
+                    // Input and filter by year experience
+                    else if (objName == "Lecturer")
+                    {
+                        Console.Write("Lecturer's year experience you want to filter: ");
+                        int year = int.Parse(Console.ReadLine());
+                        FilterByYear(year, list);
+                    }
+
+                }
+                // Input and filter by rating
+                else if (choice == "2")
+                {
+                    Console.Write($"{objName}'s rating you want to filter: ");
+                    string rate = Console.ReadLine();
+                    FilterByRating(rate, list, objName);
+                }
+            } else
             {
-                Console.Write($"{objName}'s rating you want to filter: ");
-                string rate = Console.ReadLine();
-                FilterByRating(rate, list, objName);
+                Console.WriteLine("Your list is empty");
             }
         }
 
         // 6. Sort Object 
         static void Sort(List<Person> list, string objName)
         {
-            Console.WriteLine();
-            Console.WriteLine($"Sort {objName}");
-            Console.WriteLine("1. Sort by name");
-
-            // create new table
-            var table = new ConsoleTable();
-
-            // check object name to add header to the table
-            if (objName == "Student")
+            if(list.Count > 0)
             {
-                Console.WriteLine("2. Sort by grade");
-                table = new ConsoleTable("ID", "Name", "Age", "Grade", "Rating");
-            }
-            else if (objName == "Lecturer")
-            {
-                Console.WriteLine("2. Sort by year experience");
-                table = new ConsoleTable("ID", "Name", "Age", "Year Experience", "Rating");
-            }
-
-            // create new list
-            List<Person> newList = new List<Person>();
-
-            // add person to new list
-            foreach (Person person in list)
-            {
-                newList.Add(person);
-            }
-
-            // input choice
-            Console.Write("Your choice: ");
-            string choice = GetChoiceLevel2();
-
-            // Sort by name
-            if (choice == "1")
-            {
-                newList.Sort((x, y) =>
-                {
-                    int ret = String.Compare(x.Name, y.Name);
-                    return ret;
-                });
                 Console.WriteLine();
-                
-                // add row to new table
-                if(objName == "Student")
-                {
-                    foreach (Student student in newList)
-                    {
-                        student.AddRowTable(table);
-                    }
-                }
-                else if (objName == "Lecturer")
-                {
-                    foreach (Lecturer lecturer in newList)
-                    {
-                        lecturer.AddRowTable(table);
-                    }
-                }
-                Console.WriteLine(table.ToString());
+                Console.WriteLine($"Sort {objName}");
+                Console.WriteLine("|-------------------------------------------------------------|");
+                Console.Write("|    1. Sort by name     |    ");
 
-            }
-            else if (choice == "2")
-            {
-                // sort by grade
+                // create new table
+                var table = new ConsoleTable();
+
+                // check object name to add header to the table
                 if (objName == "Student")
                 {
-                    newList = newList.OrderBy(x => ((Student)x).Grade).ToList();
-                    foreach (Student student in newList)
-                    {
-                        student.AddRowTable(table);
-                    }
+                    Console.WriteLine("     2. Sort by grade           |");
+                    table = new ConsoleTable("ID", "Name", "Age", "Grade", "Rating");
                 }
-                // sort by year experience
                 else if (objName == "Lecturer")
                 {
-                    newList = newList.OrderBy(x => ((Lecturer)x).YearExperience).ToList();
-                    foreach (Lecturer lecturer in newList)
-                    {
-                        lecturer.AddRowTable(table);
-                    }
+                    Console.WriteLine("2. Sort by year experience      |");
+                    table = new ConsoleTable("ID", "Name", "Age", "Year Experience", "Rating");
                 }
-                // display table
-                Console.WriteLine(table.ToString());
+                Console.WriteLine("|-------------------------------------------------------------|");
+                // create new list
+                List<Person> newList = new List<Person>();
+
+                // add person to new list
+                foreach (Person person in list)
+                {
+                    newList.Add(person);
+                }
+
+                // input choice
+                Console.Write("Your choice: ");
+                string choice = GetChoiceLevel2();
+
+                // Sort by name
+                if (choice == "1")
+                {
+                    newList.Sort((x, y) =>
+                    {
+                        int ret = String.Compare(x.Name, y.Name);
+                        return ret;
+                    });
+                    Console.WriteLine();
+
+                    // add row to new table
+                    if (objName == "Student")
+                    {
+                        foreach (Student student in newList)
+                        {
+                            student.AddRowTable(table);
+                        }
+                    }
+                    else if (objName == "Lecturer")
+                    {
+                        foreach (Lecturer lecturer in newList)
+                        {
+                            lecturer.AddRowTable(table);
+                        }
+                    }
+                    Console.WriteLine(table.ToString());
+
+                }
+                else if (choice == "2")
+                {
+                    // sort by grade
+                    if (objName == "Student")
+                    {
+                        newList = newList.OrderBy(x => ((Student)x).Grade).ToList();
+                        foreach (Student student in newList)
+                        {
+                            student.AddRowTable(table);
+                        }
+                    }
+                    // sort by year experience
+                    else if (objName == "Lecturer")
+                    {
+                        newList = newList.OrderBy(x => ((Lecturer)x).YearExperience).ToList();
+                        foreach (Lecturer lecturer in newList)
+                        {
+                            lecturer.AddRowTable(table);
+                        }
+                    }
+                    // display table
+                    Console.WriteLine(table.ToString());
+                }
+            } else
+            {
+                Console.WriteLine("Your list is empty");
             }
 
         }
@@ -584,29 +627,35 @@ namespace Assignment
         // 7.Reset list
         static void Reset(List<Person> list, string objName)
         {
-            // confirm to reset list
-            Console.WriteLine();
-            Console.Write($"Are you sure to reset list {objName}? (Y/N) Default Y: ");
-            string choice = Console.ReadLine();
-            choice = choice.Trim();
-
-            // validate choice
-            while (choice != "Y" && choice != "y" &&
-                choice != "N" && choice != "n" && choice != "")
+            if (list.Count >0)
             {
-                Console.Write("Wrong input. Please type Y or N: ");
-                choice = Console.ReadLine();
+                // confirm to reset list
+                Console.WriteLine();
+                Console.Write($"Are you sure to reset list {objName}? (Y/N) Default Y: ");
+                string choice = Console.ReadLine();
                 choice = choice.Trim();
-            }
-            // reset list
-            if (choice == "Y" || choice == "y" || choice == "")
+
+                // validate choice
+                while (choice != "Y" && choice != "y" &&
+                    choice != "N" && choice != "n" && choice != "")
+                {
+                    Console.Write("Wrong input. Please type Y or N: ");
+                    choice = Console.ReadLine();
+                    choice = choice.Trim();
+                }
+                // reset list
+                if (choice == "Y" || choice == "y" || choice == "")
+                {
+                    list.Clear();
+                    Console.WriteLine("Reset list successfully");
+                }
+                else if (choice == "N" || choice == "n")
+                {
+                    Console.WriteLine("You canceled the action");
+                }
+            } else
             {
-                list.Clear();
-                Console.WriteLine("Reset list successfully");
-            }
-            else if (choice == "N" || choice == "n")
-            {
-                Console.WriteLine("You canceled the action");
+                Console.WriteLine("Your list is empty");
             }
         }
 
@@ -709,7 +758,7 @@ namespace Assignment
                 choice != "3" && choice != "4" && choice != "5" &&
                 choice != "6" && choice != "7" && choice != "Exit" && choice != "exit")
             {
-                Console.Write("Please input from 1 to 5: ");
+                Console.Write("Please input from 1 to 7: ");
                 choice = Console.ReadLine();
             }
             return choice;
