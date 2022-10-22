@@ -42,9 +42,6 @@ namespace Assignment
                 if (choiceLevel1 == "1") StudentMenu(students);
                 if (choiceLevel1 == "2") LecturerMenu(lecturers);
             }
-
-
-
         }
 
         // Student menu
@@ -232,7 +229,6 @@ namespace Assignment
                         // Check if object is exist
                         if (!checkIDExist(newObj.Id, list))
                         {
-                            SettingRating(newObj, objName);
                             list.Add(newObj);
                             Console.WriteLine($"Create {objName} successfully");
                         }
@@ -343,8 +339,6 @@ namespace Assignment
                                 // set year experience to new object
                                 ((Lecturer)person).YearExperience = int.Parse(infoArr[2]);
                             }
-                            // set ratting to new object
-                            SettingRating(person, objName);
                             Console.WriteLine("Update successfully");
                         }
                         // Catch exception in own class
@@ -682,25 +676,6 @@ namespace Assignment
                 }
             }
             return false;
-        }
-
-        // Setting Rating
-        static void SettingRating(Person person, string objName)
-        {
-            // check the condition to ratting
-            if (objName == "Student")
-            {
-                if (((Student)person).Grade < 5) ((Student)person).GradeStrategy = new FailStrategy();
-                else if (((Student)person).Grade <= 7) ((Student)person).GradeStrategy = new PassStrategy();
-                else if (((Student)person).Grade <= 8.5) ((Student)person).GradeStrategy = new MeritStrategy();
-                else if (((Student)person).Grade <= 10) ((Student)person).GradeStrategy = new DistinctionStrategy();
-            }
-            else if (objName == "Lecturer")
-            {
-                if (((Lecturer)person).YearExperience <= 2) ((Lecturer)person).ExperienceStrategy = new JuniorStrategy();
-                else if (((Lecturer)person).YearExperience < 6) ((Lecturer)person).ExperienceStrategy = new MiddleStrategy();
-                else ((Lecturer)person).ExperienceStrategy = new SeniorStrategy();
-            }
         }
 
         // Get Object by ID

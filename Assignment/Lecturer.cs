@@ -38,7 +38,10 @@ namespace Assignment
 
         public string GettingExperience()
         {
-            return experienceStrategy.RattingExperience();
+            if (YearExperience <= 2) ExperienceStrategy = new JuniorStrategy();
+            else if (YearExperience < 6) ExperienceStrategy = new MiddleStrategy();
+            else ExperienceStrategy = new SeniorStrategy();
+            return ExperienceStrategy.RattingExperience();
         }
 
         public override void DisplayInformation()

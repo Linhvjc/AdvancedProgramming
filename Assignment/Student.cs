@@ -39,7 +39,11 @@ namespace Assignment
 
         public string GettingGrade()
         {
-            return gradeStrategy.RatingGrade();
+            if (Grade < 5) GradeStrategy = new FailStrategy();
+            else if (Grade <= 7) GradeStrategy = new PassStrategy();
+            else if (Grade <= 8.5) GradeStrategy = new MeritStrategy();
+            else if (Grade <= 10) GradeStrategy = new DistinctionStrategy();
+            return GradeStrategy.RatingGrade();
         }
 
         public override void DisplayInformation()

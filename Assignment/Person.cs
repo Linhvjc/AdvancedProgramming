@@ -28,7 +28,8 @@ namespace Assignment
         {
             get { return age; }
             set {
-                if (value < 6 || value > 100) throw new ArgumentOutOfRangeException(nameof(Age), "Age must be from 6 to 100");
+                if (value < 6 || value > 100) throw 
+                        new ArgumentOutOfRangeException(nameof(Age), "Age must be from 6 to 100");
                 age = value; 
             }
         }
@@ -41,17 +42,8 @@ namespace Assignment
             Age = age;
         }
 
-        public virtual void DisplayInformation()
-        {
-            
-        }
-        public virtual void DisplayInfoWhenSearchOrFilter()
-        {
-
-        }
-        public void AddRowTable(ConsoleTable table)
-        {
-            
-        }
+        public virtual void DisplayInformation(){}
+        public virtual void DisplayInfoWhenSearchOrFilter(){}
+        public void AddRowTable(ConsoleTable table){}
     }
 }
