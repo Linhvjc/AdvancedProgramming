@@ -274,15 +274,17 @@ namespace Assignment
                     // get object by ID
                     Person person = GetObjectById(id, list);
                     Console.WriteLine();
+                    Console.Write("Information: ");
+                    person.DisplayInfoWhenSearchOrFilter();
 
                     // display example
                     if (objName == "Student")
                     {
-                        Console.WriteLine("Format: <Name>, <Age>, <Grade>. Example: Phan Nhat Linh, 20, 8.5");
+                        Console.WriteLine("Update Format: <Name>, <Age>, <Grade>. Example: Phan Nhat Linh, 20, 8.5");
                     }
                     else if (objName == "Lecturer")
                     {
-                        Console.WriteLine("Format: <Name>, <Age>, <Year>. Example: Phan Nhat Linh, 20, 6");
+                        Console.WriteLine("Update Format: <Name>, <Age>, <Year>. Example: Phan Nhat Linh, 20, 6");
                     }
 
                     // input information
@@ -497,8 +499,20 @@ namespace Assignment
                     if (objName == "Student")
                     {
                         Console.Write("Student's grade you want to filter: ");
-                        double grade = double.Parse(Console.ReadLine());
-                        FilterByGrade(grade, list);
+                        try
+                        {
+                            double grade = double.Parse(Console.ReadLine());
+                            if (grade <0 || grade > 10)
+                            {
+                                Console.WriteLine("Grade must be from 0 to 10");
+                            } else
+                            {
+                                FilterByGrade(grade, list);
+                            }
+                        } catch (Exception e)
+                        {
+                            Console.WriteLine("Age must be double");
+                        }
                     }
                     // Input and filter by year experience
                     else if (objName == "Lecturer")
@@ -514,7 +528,18 @@ namespace Assignment
                 {
                     Console.Write($"{objName}'s rating you want to filter: ");
                     string rate = Console.ReadLine();
-                    FilterByRating(rate, list, objName);
+                    rate = rate.Trim();
+                    if (objName == "Student" && rate != "Fail" && rate != "Pass" && rate != "Merit" && rate != "Distinction")
+                    {
+                        Console.WriteLine("Rating must be Fail, Pass, Merit or Distinction");
+                    }
+                    else if (objName == "Lecturer" && rate != "Junior" && rate != "Middle" && rate != "Senior")
+                    {
+                        Console.WriteLine("Rating must be Junior, Middle or Senior");
+                    } else
+                    {
+                        FilterByRating(rate, list, objName);
+                    }
                 }
             } else
             {

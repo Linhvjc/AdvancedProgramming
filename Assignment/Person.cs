@@ -44,6 +44,6 @@ namespace Assignment
 
         public virtual void DisplayInformation(){}
         public virtual void DisplayInfoWhenSearchOrFilter(){}
-        public void AddRowTable(ConsoleTable table){}
+        public virtual void AddRowTable(ConsoleTable table){}
     }
 }

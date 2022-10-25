@@ -56,7 +56,7 @@ namespace Assignment
                                 $", Year: {this.YearExperience}, Rating: {this.GettingExperience()}");
         }
 
-        public void AddRowTable(ConsoleTable table)
+        public override void AddRowTable(ConsoleTable table)
         {
             table.AddRow(this.Id, this.Name, this.Age, this.YearExperience, this.GettingExperience());
         }

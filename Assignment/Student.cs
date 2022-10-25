@@ -57,7 +57,7 @@ namespace Assignment
                                 $", Grade: {this.Grade}, Rating: {this.GettingGrade()}");
         }
 
-        public void AddRowTable(ConsoleTable table)
+        public override void AddRowTable(ConsoleTable table)
         {
             table.AddRow(this.Id, this.Name, this.Age, this.Grade, this.GettingGrade());
         }
